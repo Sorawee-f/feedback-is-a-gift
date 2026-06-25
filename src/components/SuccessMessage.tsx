@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Gift, ArrowLeft, Terminal, CheckCircle2, Copy, Check, Sparkles } from 'lucide-react';
 import { ECard } from '../types';
 import { CardTheme } from '../data';
 import ECardPreview from './ECardPreview';
+import { getCardsFromLocalStorage } from '../services/cardStorageService';
 
 interface SuccessMessageProps {
   card: ECard;
@@ -20,6 +21,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
   const [copied, setCopied] = useState(false);
 
   const cardPayloadString = JSON.stringify(card, null, 2);
+  const localCardCount = useMemo(() => getCardsFromLocalStorage().length, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(cardPayloadString);
@@ -62,7 +64,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
           <div className="bg-stone-50 border border-stone-200 rounded-2xl p-5 md:p-6 shadow-xs">
             <div className="flex items-center justify-between mb-3.5 pb-3.5 border-b border-stone-200/80">
               <span className="flex items-center gap-2 text-stone-800 font-bold font-sans text-sm">
-                <Terminal className="h-4.5 w-4.5 text-emerald-750" />
+                <Terminal className="h-4.5 w-4.5 text-emerald-700" />
                 <span>V0 Developer Console Log</span>
               </span>
               <span className="text-[10px] bg-amber-100 text-amber-800 font-mono font-bold px-2.5 py-1 rounded-md">
@@ -75,9 +77,13 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
               และแสดงผลออกทาง Terminal/Developer Console ของเบราว์เซอร์ โดยจำลองความพร้อมก่อนเชื่อมต่อฐานข้อมูลในอนาคต:
             </p>
 
+            <div className="mb-4 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs text-emerald-800 font-sans">
+              Cards saved in this browser: <strong>{localCardCount}</strong>
+            </div>
+
             {/* Simulated terminal logging snippet */}
             <div className="relative group">
-              <pre className="g-stone-900 text-stone-100 bg-[#1c1917] p-4 rounded-xl text-[11px] font-mono leading-relaxed overflow-x-auto max-h-[220px]">
+              <pre className="bg-stone-900 text-stone-100 bg-[#1c1917] p-4 rounded-xl text-[11px] font-mono leading-relaxed overflow-x-auto max-h-[220px]">
                 {cardPayloadString}
               </pre>
               <button
@@ -126,7 +132,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
               type="button"
               id="success-home-button"
               onClick={onGoHome}
-              className="w-full sm:w-auto py-3.5 px-6 bg-white hover:bg-stone-50 text-stone-750 border border-stone-200 font-sans font-semibold text-sm rounded-xl cursor-pointer transition-all flex items-center justify-center gap-1.5"
+              className="w-full sm:w-auto py-3.5 px-6 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 font-sans font-semibold text-sm rounded-xl cursor-pointer transition-all flex items-center justify-center gap-1.5"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>กลับสู่หน้าแรก (Home)</span>

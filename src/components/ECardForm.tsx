@@ -9,6 +9,7 @@ import { Employee, ECard } from '../types';
 import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme } from '../data';
 import RecipientSearch from './RecipientSearch';
 import ECardPreview from './ECardPreview';
+import { saveCardToLocalStorage } from '../services/cardStorageService';
 
 interface ECardFormProps {
   onSubmitSuccess: (card: ECard, activeTheme: CardTheme) => void;
@@ -110,7 +111,8 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
       };
 
       // V0.6 REQUIREMENT: Log mock card object to developer console
-      console.log('--- [Feedback is a Gift] V0.6 MOCK_CARD_CREATED ---', newCard);
+      console.log('--- [Feedback is a Gift] V0.6 TEMPLATE_POLISHED MOCK_CARD_CREATED ---', newCard);
+      saveCardToLocalStorage(newCard);
 
       setIsSubmitting(false);
       onSubmitSuccess(newCard, activeTheme);
@@ -362,32 +364,33 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                 สไตล์ลวดลายการ์ด E-Card (Holiday Card template - เลือกได้จาก 10 ลาย)
               </label>
               <p className="text-[11px] text-stone-400 font-sans mt-0.5">
-                เลือกรูปแบบคริสต์มาสหรือฉลองหรูหรา เพื่อเปลี่ยนแปลงโทนสีและของโบว์สติกเกอร์ทันที
+                แต่ละลายมีโทนสี พื้นหลัง ลวดลาย และตราประทับต่างกัน Preview จะเปลี่ยนทันที
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto p-1.5 border border-stone-200/60 rounded-2xl bg-stone-50/40">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[360px] overflow-y-auto p-1.5 border border-stone-200/60 rounded-2xl bg-stone-50/40">
               {CARD_THEMES.map((theme) => (
                 <button
                   key={theme.id}
                   id={`theme-select-${theme.id}`}
                   type="button"
                   onClick={() => setSelectedThemeId(theme.id)}
-                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex gap-3 items-center justify-between ${
+                  className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex gap-3 items-center ${
                     selectedThemeId === theme.id
-                      ? 'border-red-650 bg-red-50/30 ring-2 ring-red-650'
-                      : 'border-stone-200 hover:border-stone-300 bg-white shadow-xs'
+                      ? 'border-red-650 bg-white ring-2 ring-red-650 shadow-md'
+                      : 'border-stone-200 hover:border-stone-300 bg-white shadow-xs hover:shadow-md'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="text-2xl shrink-0 select-none">{theme.illustration}</span>
-                    <div className="min-w-0">
-                      <span className="text-xs font-bold text-stone-800 block truncate">{theme.name.split(' (')[0]}</span>
-                      <span className="text-[10px] text-stone-400 block truncate font-sans">{theme.description}</span>
-                    </div>
+                  <div className={`h-16 w-12 rounded-xl ${theme.headerBg} ${theme.frameClass} border flex items-center justify-center text-xl shrink-0 shadow-sm relative overflow-hidden`}>
+                    <div className={`absolute inset-0 opacity-70 ${theme.patternClass}`} />
+                    <span className="relative z-10">{theme.illustration}</span>
                   </div>
-                  <div className={`h-5 w-5 rounded-full ${theme.headerBg} border border-stone-200/60 flex items-center justify-center text-[10px] text-white font-bold shrink-0 shadow-inner`}>
-                    {theme.stampEmoji}
+                  <div className="min-w-0 flex-1">
+                    <span className="text-xs font-black text-stone-800 block truncate">{theme.shortName}</span>
+                    <span className="text-[10px] text-stone-500 block leading-snug font-sans line-clamp-2">{theme.description}</span>
+                    <span className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold border ${theme.sealClass}`}>
+                      {theme.stampEmoji} {theme.closingLine}
+                    </span>
                   </div>
                 </button>
               ))}

@@ -131,16 +131,16 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           
           <div className="text-left">
-            <p className="text-xs font-semibold text-gray-750 font-sans flex items-center gap-1.5 justify-center md:justify-start">
+            <p className="text-xs font-semibold text-gray-700 font-sans flex items-center gap-1.5 justify-center md:justify-start">
               <span>แคมเปญ “Feedback is a Gift” 🎁</span>
               <span className="text-[10px] text-gray-400 font-normal">เพราะคำชอบคุณและทุกคำชื่นชมคือของขวัญอันคุ้มค่าของคนในองค์กร</span>
             </p>
-            <p className="text-[10px] text-gray-450 font-sans mt-0.5">
+            <p className="text-[10px] text-gray-400 font-sans mt-0.5">
               ระบบส่งบัตรอวยพรภายในองค์กร (V0 Prototype) • ออกแบบในสไตล์ Clean Minimalism
             </p>
           </div>
 
-          <div className="text-xs text-gray-450 font-sans flex items-center gap-3">
+          <div className="text-xs text-gray-400 font-sans flex items-center gap-3">
             <span>Powered by Prompt font</span>
             <span className="text-gray-300">|</span>
             <span>Corporate Communications Team © 2026</span>

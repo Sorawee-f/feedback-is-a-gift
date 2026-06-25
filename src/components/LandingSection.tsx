@@ -58,7 +58,7 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
               <div className="border-t border-dashed border-stone-200 pt-2 flex items-center justify-between">
                 <div>
                   <span className="text-[8px] text-stone-400 block uppercase tracking-wider">Warm wishes from</span>
-                  <span className="text-[10px] font-bold text-stone-750">คุณ วิน • Dev Team</span>
+                  <span className="text-[10px] font-bold text-stone-700">คุณ วิน • Dev Team</span>
                 </div>
                 <div className="text-base">🎅</div>
               </div>
@@ -93,28 +93,28 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
             <div className="flex items-start gap-2.5">
               <span className="bg-stone-100 text-stone-700 border border-stone-200 font-bold p-1 rounded-md text-[10px] w-5 h-5 flex items-center justify-center shrink-0">1</span>
               <div>
-                <strong className="text-stone-850 font-sans block mb-0.5">เลือกพนักงานผู้รับง่ายๆ</strong>
+                <strong className="text-stone-800 font-sans block mb-0.5">เลือกพนักงานผู้รับง่ายๆ</strong>
                 <span>ค้นหาชื่อผู้รับจากทำเนียบพนักงานจริง</span>
               </div>
             </div>
             <div className="flex items-start gap-2.5">
               <span className="bg-stone-100 text-stone-700 border border-stone-200 font-bold p-1 rounded-md text-[10px] w-5 h-5 flex items-center justify-center shrink-0">2</span>
               <div>
-                <strong className="text-stone-850 font-sans block mb-0.5">เลือกส่งแบบนิรนามได้</strong>
+                <strong className="text-stone-800 font-sans block mb-0.5">เลือกส่งแบบนิรนามได้</strong>
                 <span>แชร์ข้อความแบบประสงค์ออกนามหรือ Anonymous</span>
               </div>
             </div>
             <div className="flex items-start gap-2.5">
               <span className="bg-stone-100 text-stone-700 border border-stone-200 font-bold p-1 rounded-md text-[10px] w-5 h-5 flex items-center justify-center shrink-0">3</span>
               <div>
-                <strong className="text-stone-850 font-sans block mb-0.5">ไอเดียข้อความตัวอย่าง</strong>
+                <strong className="text-stone-800 font-sans block mb-0.5">ไอเดียข้อความตัวอย่าง</strong>
                 <span>มีคลังข้อความสำเร็จรูปนำทางให้คุณนำไปปรับแต่ง</span>
               </div>
             </div>
             <div className="flex items-start gap-2.5">
               <span className="bg-stone-100 text-stone-700 border border-stone-200 font-bold p-1 rounded-md text-[10px] w-5 h-5 flex items-center justify-center shrink-0">4</span>
               <div>
-                <strong className="text-stone-850 font-sans block mb-0.5">พรีวิวการ์ดสไตล์เรียลไทม์</strong>
+                <strong className="text-stone-800 font-sans block mb-0.5">พรีวิวการ์ดสไตล์เรียลไทม์</strong>
                 <span>เห็นร่างชิ้นงานพร้อมภาพประกอบจำลองแบบสดๆ</span>
               </div>
             </div>
