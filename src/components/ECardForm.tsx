@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { User, Eye, Send, Sparkles, AlertCircle, HelpCircle, Lightbulb } from 'lucide-react';
+import { Send, Lightbulb } from 'lucide-react';
 import { Employee, ECard, CustomCardOptions, YakStickerPosition } from '../types';
 import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme, DEFAULT_CUSTOM_OPTIONS, HEADER_COLOR_OPTIONS, YAK_STICKERS } from '../data';
 import RecipientSearch from './RecipientSearch';
@@ -18,7 +18,6 @@ interface ECardFormProps {
 
 export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
   // Input states
-  const [senderMode, setSenderMode] = useState<'named' | 'anonymous'>('named');
   const [employeeCode, setEmployeeCode] = useState('');
   const [senderBU, setSenderBU] = useState<'TVB' | 'VG3' | 'TR' | 'TRL' | 'YOD' | 'SS' | 'EVP' | 'TRC' | ''>('');
   const [senderAka, setSenderAka] = useState('');
@@ -76,11 +75,9 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
       newErrors.senderBU = 'กรุณาเลือกกลุ่มบริษัท / ฝ่าย (BU is required)';
     }
 
-    // Sender Name / AKA validation
-    if (senderMode === 'named') {
-      if (!senderAka.trim()) {
-        newErrors.senderAka = 'กรุณาระบุนามแฝง/ชื่อที่ใช้แสดงบนการ์ด (Sender Display Name is required)';
-      }
+    // Sender display name validation
+    if (!senderAka.trim()) {
+      newErrors.senderAka = 'กรุณาระบุนามแฝง/ชื่อที่ใช้แสดงบนการ์ด (Sender Display Name is required)';
     }
 
     setErrors(newErrors);
@@ -101,10 +98,10 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
       
       const newCard: ECard = {
         cardId: generatedMockCardId,
-        senderMode: senderMode,
+        senderMode: 'named',
         employeeCode: employeeCode,
         senderBU: senderBU as ECard['senderBU'],
-        senderAka: senderMode === 'named' ? senderAka.trim() : '',
+        senderAka: senderAka.trim(),
         recipientEmployeeId: selectedRecipient!.employeeId,
         recipientName: selectedRecipient!.nickname,
         recipientEmail: selectedRecipient!.email,
@@ -262,106 +259,36 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
               </div>
             </div>
 
-            {/* Named or Anonymous Option */}
-            <div className="space-y-2">
-              <label className="block text-xs font-semibold text-stone-600">
-                รูปแบบการแสดงชื่อผู้ส่งบนการ์ด (Sender Display Option) <span className="text-red-650 font-bold">*</span>
+            {/* Sender Display Name (AKA) Input */}
+            <div id="named-sender-inputs" className="bg-stone-50/70 p-4 rounded-2xl border border-stone-200/55 animate-fade-in space-y-1">
+              <label className="block text-xs font-semibold text-stone-600 mb-1">
+                ชื่อเล่น / นามแฝงที่ใช้แสดงบนการ์ด (Sender AKA / Display Name) <span className="text-red-650">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  id="mode-named-button"
-                  onClick={() => {
-                    setSenderMode('named');
+              <input
+                type="text"
+                id="sender-aka-input"
+                value={senderAka}
+                onChange={(e) => {
+                  setSenderAka(e.target.value);
+                  if (errors.senderAka) {
                     setErrors((p) => {
                       const copy = { ...p };
                       delete copy.senderAka;
                       return copy;
                     });
-                  }}
-                  className={`py-2.5 px-3 rounded-xl text-left border-2 transition-all flex items-start gap-2.5 cursor-pointer ${
-                    senderMode === 'named'
-                      ? 'border-red-650 bg-red-50/10 text-red-700'
-                      : 'border-stone-200 hover:border-stone-300 bg-white text-stone-600'
-                  }`}
-                >
-                  <div className={`mt-0.5 h-4.5 w-4.5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                    senderMode === 'named' ? 'border-red-650' : 'border-stone-300'
-                  }`}>
-                    {senderMode === 'named' && <div className="h-2 w-2 bg-red-650 rounded-full" />}
-                  </div>
-                  <div>
-                    <strong className="text-xs font-bold block">ระบุตัวตน (Named)</strong>
-                    <span className="text-[10px] block text-stone-500 mt-0.5 leading-normal">
-                      แสดงชื่อเรียก/นามแฝงของคุณบนตัวการ์ด
-                    </span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  id="mode-anonymous-button"
-                  onClick={() => {
-                    setSenderMode('anonymous');
-                    setErrors((p) => {
-                      const copy = { ...p };
-                      delete copy.senderAka;
-                      return copy;
-                    });
-                  }}
-                  className={`py-2.5 px-3 rounded-xl text-left border-2 transition-all flex items-start gap-2.5 cursor-pointer ${
-                    senderMode === 'anonymous'
-                      ? 'border-red-650 bg-red-50/10 text-red-700'
-                      : 'border-stone-200 hover:border-stone-300 bg-white text-stone-600'
-                  }`}
-                >
-                  <div className={`mt-0.5 h-4.5 w-4.5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                    senderMode === 'anonymous' ? 'border-red-650' : 'border-stone-300'
-                  }`}>
-                    {senderMode === 'anonymous' && <div className="h-2 w-2 bg-red-650 rounded-full" />}
-                  </div>
-                  <div>
-                    <strong className="text-xs font-bold block">ไม่ระบุตัวตน (Anonymous)</strong>
-                    <span className="text-[10px] block text-stone-500 mt-0.5 leading-normal">
-                      จะปรากฏผู้ส่งเป็นคำว่า "Anonymous" บนตัวการ์ด
-                    </span>
-                  </div>
-                </button>
-              </div>
+                  }
+                }}
+                maxLength={40}
+                placeholder="เช่น บี, พี่บี, Bee People Team"
+                className={`w-full px-3 py-2.5 bg-white border ${
+                  errors.senderAka ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 focus:ring-emerald-700 focus:border-emerald-700'
+                } rounded-xl text-sm font-sans outline-none focus:ring-1 focus:bg-white`}
+              />
+              <span className="text-[10px] text-stone-400 block mt-1">ชื่อนี้จะปรากฏในส่วน Warmest wishes from ด้านล่างการ์ด</span>
+              {errors.senderAka && (
+                <span className="text-[11px] text-red-650 font-medium block mt-1">• {errors.senderAka}</span>
+              )}
             </div>
-
-            {/* Conditional Display Name (AKA) Input */}
-            {senderMode === 'named' && (
-              <div id="named-sender-inputs" className="bg-stone-50/70 p-4 rounded-2xl border border-stone-200/55 animate-fade-in space-y-1">
-                <label className="block text-xs font-semibold text-stone-600 mb-1">
-                  ชื่อเล่น / นามแฝงผู้ใช้แสดงจริง (Sender AKA / Display Name) <span className="text-red-650">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="sender-aka-input"
-                  value={senderAka}
-                  onChange={(e) => {
-                    setSenderAka(e.target.value);
-                    if (errors.senderAka) {
-                      setErrors((p) => {
-                        const copy = { ...p };
-                        delete copy.senderAka;
-                        return copy;
-                      });
-                    }
-                  }}
-                  maxLength={40}
-                  placeholder="เช่น บี, พี่บี, Bee People Team"
-                  className={`w-full px-3 py-2.5 bg-white border ${
-                    errors.senderAka ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 focus:ring-emerald-700 focus:border-emerald-700'
-                  } rounded-xl text-sm font-sans outline-none focus:ring-1 focus:bg-white`}
-                />
-                <span className="text-[10px] text-stone-400 block mt-1">ชื่อนี้จะปรากฏในแท็ก Warmest wishes from ด้านล่างการ์ด</span>
-                {errors.senderAka && (
-                  <span className="text-[11px] text-red-650 font-medium block mt-1">• {errors.senderAka}</span>
-                )}
-              </div>
-            )}
           </div>
 
           {/* SECTION 3: CARD DESIGN PRESETS (5 default + 1 custom) */}
@@ -473,10 +400,9 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                   <label className="block text-xs font-semibold text-stone-600 mb-2">
                     ตำแหน่งพี่ยักษ์ (Sticker Position)
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     {[
-                      { value: 'bottom-left', label: 'ซ้าย' },
-                      { value: 'bottom-right', label: 'ขวา' },
+                      { value: 'bottom-right', label: 'แสดงมุมขวา' },
                       { value: 'none', label: 'ไม่แสดง' },
                     ].map((option) => (
                       <button
@@ -618,7 +544,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
             recipientName={selectedRecipient ? selectedRecipient.nickname : ''}
             recipientDepartment={selectedRecipient ? selectedRecipient.department : ''}
             message={message}
-            senderMode={senderMode}
+            senderMode="named"
             senderAka={senderAka}
             activeTheme={activeTheme}
             customOptions={isCustomTheme ? customOptions : undefined}

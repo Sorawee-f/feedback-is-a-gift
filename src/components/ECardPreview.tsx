@@ -55,10 +55,9 @@ export default function ECardPreview({
   const messageFontSizeClass = getMessageFontSize(message);
   const messageLineHeightClass = getMessageLineHeight(message);
 
-  const stickerPositionClass = visualTheme.yakPosition === 'bottom-left'
-    ? 'left-[-8px] bottom-[76px]'
-    : 'right-[-8px] bottom-[76px]';
+  const stickerPositionClass = 'right-[-10px] bottom-[46px]';
   const shouldShowSticker = Boolean(visualTheme.yakStickerSrc && visualTheme.yakPosition !== 'none');
+  const footerPaddingClass = shouldShowSticker ? 'pr-24 sm:pr-28 md:pr-32' : '';
 
   return (
     <div
@@ -78,7 +77,7 @@ export default function ECardPreview({
       {/* Actual E-Card Container */}
       <div
         id="real-ecard"
-        className={`w-full max-w-[440px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
+        className={`w-full max-w-[500px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
       >
         {/* Card Header */}
         <div className={`h-44 ${visualTheme.headerBg} relative flex flex-col items-center justify-center overflow-hidden transition-all duration-300`}>
@@ -127,7 +126,7 @@ export default function ECardPreview({
               src={visualTheme.yakStickerSrc}
               alt=""
               aria-hidden="true"
-              className={`pointer-events-none absolute ${stickerPositionClass} z-0 w-20 sm:w-24 md:w-28 max-h-32 object-contain opacity-95 drop-shadow-xl select-none`}
+              className={`pointer-events-none absolute ${stickerPositionClass} z-20 w-24 sm:w-28 md:w-32 max-h-40 object-contain opacity-95 drop-shadow-xl select-none`}
               onError={(event) => {
                 event.currentTarget.style.display = 'none';
               }}
@@ -139,14 +138,9 @@ export default function ECardPreview({
             <p className={`text-[10px] font-extrabold uppercase tracking-[0.22em] font-sans ${visualTheme.eyebrowText}`}>
               To My Colleague
             </p>
-            <h2 className={`text-2xl md:text-3xl font-black ${visualTheme.accentText} tracking-tight font-sans leading-tight`}>
-              คุณ {displayRecipient}
+            <h2 className={`text-xl md:text-2xl font-black ${visualTheme.accentText} tracking-tight font-sans leading-tight break-words`}>
+              คุณ {displayRecipient}{recipientDepartment ? ` : ${recipientDepartment}` : ''}
             </h2>
-            {recipientDepartment && (
-              <span className="inline-flex rounded-full bg-white/75 border border-stone-200 px-2.5 py-1 text-[10px] font-semibold text-stone-500 font-sans">
-                {recipientDepartment}
-              </span>
-            )}
           </div>
 
           {/* Message Block */}
@@ -159,7 +153,7 @@ export default function ECardPreview({
           </div>
 
           {/* Closing / Footer */}
-          <div className="relative z-10 pt-4 border-t border-dashed border-stone-200 flex justify-between items-end gap-4">
+          <div className={`relative z-10 pt-4 ${footerPaddingClass} border-t border-dashed border-stone-200`}>
             <div className="space-y-1 min-w-0">
               <p className="text-[9px] text-stone-400 uppercase tracking-widest font-sans">
                 Warmest wishes from
@@ -170,12 +164,6 @@ export default function ECardPreview({
               <p className={`text-[10px] font-semibold ${visualTheme.eyebrowText}`}>
                 {visualTheme.closingLine}
               </p>
-            </div>
-
-            {/* Seal Stamp */}
-            <div className={`h-14 w-14 rounded-full border shadow-sm flex flex-col items-center justify-center select-none shrink-0 ${visualTheme.sealClass}`}>
-              <span className="text-xl leading-none">{visualTheme.stampEmoji}</span>
-              <span className="text-[7px] font-black uppercase tracking-wider mt-0.5">Gift</span>
             </div>
           </div>
         </div>

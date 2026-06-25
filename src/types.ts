@@ -15,7 +15,7 @@ export type SenderMode = 'named' | 'anonymous';
 
 export type SenderBU = 'TVB' | 'VG3' | 'TR' | 'TRL' | 'YOD' | 'SS' | 'EVP' | 'TRC';
 
-export type YakStickerPosition = 'bottom-left' | 'bottom-right' | 'none';
+export type YakStickerPosition = 'bottom-right' | 'none';
 
 export interface CustomCardOptions {
   headerColor: 'red' | 'emerald' | 'navy' | 'gold' | 'pink' | 'purple';
@@ -28,7 +28,7 @@ export interface ECard {
   senderMode: SenderMode;
   employeeCode: string; // 6-digit string
   senderBU: SenderBU;
-  senderAka: string; // display name shown if senderMode is Named
+  senderAka: string; // display name shown on the card
   recipientEmployeeId: string;
   recipientName: string;
   recipientEmail: string;
