@@ -81,6 +81,8 @@ export interface CardTheme {
   illustration: string;
   stampEmoji: string;
   decorativeEmojis: string[];
+  headerTitleClass?: string;
+  headerSubtitleClass?: string;
   closingLine: string;
   yakStickerSrc?: string;
   yakPosition?: YakStickerPosition;
@@ -238,6 +240,8 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '❄',
     stampEmoji: '❄',
     decorativeEmojis: ['❄', '·', '❄'],
+    headerTitleClass: 'text-violet-950 drop-shadow-none',
+    headerSubtitleClass: 'text-amber-700/90',
     closingLine: 'Simple words, meaningful impact',
     yakStickerSrc: '/stickers/yak-mini-heart-(no heart).png',
     yakPosition: 'bottom-right'
@@ -278,6 +282,8 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '🎉',
     stampEmoji: '🥂',
     decorativeEmojis: ['🎉', '✦', '🥂'],
+    headerTitleClass: 'text-yellow-950 drop-shadow-none',
+    headerSubtitleClass: 'text-yellow-900/85',
     closingLine: 'Cheers to your great work',
     yakStickerSrc: '/stickers/yak-SayHi.png',
     yakPosition: 'bottom-right'
@@ -286,7 +292,7 @@ export const CARD_THEMES: CardTheme[] = [
     id: 'custom',
     name: 'Custom Card',
     shortName: 'Custom',
-    description: 'เลือกสีหัวการ์ดและเลือกแสดงพี่ยักษ์มุมขวาได้แบบง่าย ๆ',
+    description: 'เลือกสีหัวการ์ดและตำแหน่งพี่ยักษ์เองแบบง่าย ๆ',
     headerBg: HEADER_COLOR_OPTIONS[0].headerBg,
     bodyBg: 'bg-[linear-gradient(180deg,#fffaf0,#ffffff)]',
     frameClass: HEADER_COLOR_OPTIONS[0].frameClass,
