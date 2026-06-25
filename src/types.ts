@@ -11,11 +11,23 @@ export interface Employee {
   department: string;
 }
 
+export type SenderMode = 'named' | 'anonymous';
+
+export type SenderBU = 'TVB' | 'VG3' | 'TR' | 'TRL' | 'YOD' | 'SS' | 'EVP' | 'TRC';
+
+export type YakStickerPosition = 'bottom-left' | 'bottom-right' | 'none';
+
+export interface CustomCardOptions {
+  headerColor: 'red' | 'emerald' | 'navy' | 'gold' | 'pink' | 'purple';
+  yakStickerId: string;
+  yakPosition: YakStickerPosition;
+}
+
 export interface ECard {
   cardId: string;
-  senderMode: 'named' | 'anonymous';
+  senderMode: SenderMode;
   employeeCode: string; // 6-digit string
-  senderBU: 'TVB' | 'VG3' | 'TR' | 'TRL' | 'YOD' | 'SS' | 'EVP' | 'TRC';
+  senderBU: SenderBU;
   senderAka: string; // display name shown if senderMode is Named
   recipientEmployeeId: string;
   recipientName: string;
@@ -23,6 +35,7 @@ export interface ECard {
   recipientDepartment: string;
   message: string;
   templateId: string;
+  customOptions?: CustomCardOptions;
   emailStatus: 'mock';
   cardImageUrl: string;
   createdAt: string;

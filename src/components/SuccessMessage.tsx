@@ -55,6 +55,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
               senderMode={card.senderMode}
               senderAka={card.senderAka}
               activeTheme={cardTheme}
+              customOptions={card.customOptions}
             />
           </div>
         </div>

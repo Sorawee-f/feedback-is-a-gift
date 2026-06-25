@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Employee } from './types';
+import { Employee, CustomCardOptions, YakStickerPosition } from './types';
 
 export const MOCK_EMPLOYEES: Employee[] = [
   {
@@ -82,103 +82,150 @@ export interface CardTheme {
   stampEmoji: string;
   decorativeEmojis: string[];
   closingLine: string;
+  yakStickerSrc?: string;
+  yakPosition?: YakStickerPosition;
+  isCustom?: boolean;
 }
+
+export interface YakStickerOption {
+  id: string;
+  label: string;
+  src: string;
+}
+
+export interface HeaderColorOption {
+  id: CustomCardOptions['headerColor'];
+  label: string;
+  headerBg: string;
+  ribbonColor: string;
+  accentText: string;
+  eyebrowText: string;
+  frameClass: string;
+  sealClass: string;
+}
+
+export const YAK_STICKERS: YakStickerOption[] = [
+  { id: 'yak-mini-heart', label: 'Mini Heart', src: '/stickers/yak-mini-heart.png' },
+  { id: 'yak-say-hi', label: 'Say Hi', src: '/stickers/yak-SayHi.png' },
+  { id: 'yak-gift', label: 'Holding Gift', src: '/stickers/yak-holding-gift.png' },
+  { id: 'yak-love', label: 'Love', src: '/stickers/yak-Love.png' },
+  { id: 'yak-great', label: 'Great Work', src: '/stickers/yak-great.png' }
+];
+
+export const HEADER_COLOR_OPTIONS: HeaderColorOption[] = [
+  {
+    id: 'red',
+    label: 'Crimson Red',
+    headerBg: 'bg-[linear-gradient(135deg,#8b1a1a,#e11d48,#f97316)]',
+    ribbonColor: 'bg-amber-300 text-red-950',
+    accentText: 'text-red-700',
+    eyebrowText: 'text-red-600',
+    frameClass: 'border-red-200 shadow-red-950/10',
+    sealClass: 'bg-red-50 border-red-200 text-red-700'
+  },
+  {
+    id: 'emerald',
+    label: 'Premium Emerald',
+    headerBg: 'bg-[linear-gradient(135deg,#022c22,#047857,#22c55e)]',
+    ribbonColor: 'bg-amber-300 text-emerald-950',
+    accentText: 'text-emerald-800',
+    eyebrowText: 'text-emerald-700',
+    frameClass: 'border-emerald-200 shadow-emerald-950/10',
+    sealClass: 'bg-emerald-50 border-emerald-200 text-emerald-800'
+  },
+  {
+    id: 'navy',
+    label: 'Midnight Navy',
+    headerBg: 'bg-[linear-gradient(135deg,#020617,#172554,#0f172a)]',
+    ribbonColor: 'bg-sky-200 text-slate-950',
+    accentText: 'text-slate-900',
+    eyebrowText: 'text-blue-700',
+    frameClass: 'border-blue-200 shadow-blue-950/10',
+    sealClass: 'bg-blue-50 border-blue-200 text-blue-800'
+  },
+  {
+    id: 'gold',
+    label: 'Soft Gold',
+    headerBg: 'bg-[linear-gradient(135deg,#78350f,#d97706,#facc15)]',
+    ribbonColor: 'bg-emerald-900 text-white',
+    accentText: 'text-yellow-800',
+    eyebrowText: 'text-yellow-700',
+    frameClass: 'border-yellow-200 shadow-yellow-950/10',
+    sealClass: 'bg-yellow-50 border-yellow-200 text-yellow-800'
+  },
+  {
+    id: 'pink',
+    label: 'Warm Rose',
+    headerBg: 'bg-[linear-gradient(135deg,#9f1239,#fb7185,#fdba74)]',
+    ribbonColor: 'bg-white text-rose-700 border border-rose-200',
+    accentText: 'text-rose-700',
+    eyebrowText: 'text-rose-600',
+    frameClass: 'border-rose-200 shadow-rose-950/10',
+    sealClass: 'bg-rose-50 border-rose-200 text-rose-700'
+  },
+  {
+    id: 'purple',
+    label: 'Star Purple',
+    headerBg: 'bg-[linear-gradient(135deg,#3b0764,#7e22ce,#f472b6)]',
+    ribbonColor: 'bg-amber-200 text-purple-950',
+    accentText: 'text-purple-800',
+    eyebrowText: 'text-purple-700',
+    frameClass: 'border-purple-200 shadow-purple-950/10',
+    sealClass: 'bg-purple-50 border-purple-200 text-purple-800'
+  }
+];
+
+export const DEFAULT_CUSTOM_OPTIONS: CustomCardOptions = {
+  headerColor: 'red',
+  yakStickerId: 'yak-mini-heart',
+  yakPosition: 'bottom-right'
+};
 
 export const CARD_THEMES: CardTheme[] = [
   {
-    id: 'classic-gift',
-    name: 'Classic Christmas Gift',
-    shortName: 'Classic Gift',
-    description: 'แดงทองคลาสสิก ดู festive และอบอุ่น เหมาะกับทุกข้อความ',
-    headerBg: 'bg-[linear-gradient(135deg,#7f1d1d,#be123c,#f59e0b)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#fffaf0,#ffffff)]',
+    id: 'warm-gift',
+    name: 'Warm Gift',
+    shortName: 'Warm Gift',
+    description: 'โทนแดงครีมอบอุ่น ใช้ง่าย เหมาะกับคำขอบคุณทั่วไป',
+    headerBg: 'bg-[linear-gradient(135deg,#8b1a1a,#e11d48,#f97316)]',
+    bodyBg: 'bg-[linear-gradient(180deg,#fff7ed,#ffffff)]',
     frameClass: 'border-amber-200 shadow-amber-950/10',
     patternClass: 'bg-[radial-gradient(circle_at_20%_20%,rgba(251,191,36,0.35)_0_2px,transparent_3px),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.35)_0_2px,transparent_3px)]',
     accentText: 'text-red-700',
     eyebrowText: 'text-amber-700',
-    ribbonColor: 'bg-amber-400 text-red-900',
+    ribbonColor: 'bg-amber-300 text-red-950',
     sealClass: 'bg-red-50 border-red-200 text-red-700',
     illustration: '🎁',
-    stampEmoji: '🦌',
-    decorativeEmojis: ['✦', '🎄', '✦'],
-    closingLine: 'Wrapped with appreciation'
+    stampEmoji: '🎁',
+    decorativeEmojis: ['✦', '✺', '✦'],
+    closingLine: 'Wrapped with appreciation',
+    yakStickerSrc: '/stickers/yak-holding-gift.png',
+    yakPosition: 'bottom-right'
   },
   {
-    id: 'snowy-night',
-    name: 'Snowy Night',
-    shortName: 'Snowy Night',
-    description: 'น้ำเงินเข้ม หิมะ และดาว ให้ความรู้สึกสงบ สุภาพ พรีเมียม',
-    headerBg: 'bg-[linear-gradient(135deg,#020617,#172554,#0f172a)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#f8fafc,#ffffff)]',
-    frameClass: 'border-sky-100 shadow-slate-950/10',
-    patternClass: 'bg-[radial-gradient(circle_at_18%_25%,rgba(255,255,255,0.8)_0_1px,transparent_2px),radial-gradient(circle_at_75%_18%,rgba(186,230,253,0.9)_0_1px,transparent_2px),radial-gradient(circle_at_50%_75%,rgba(255,255,255,0.7)_0_1px,transparent_2px)]',
-    accentText: 'text-slate-900',
-    eyebrowText: 'text-sky-700',
-    ribbonColor: 'bg-sky-200 text-slate-900',
-    sealClass: 'bg-sky-50 border-sky-200 text-sky-800',
-    illustration: '❄️',
-    stampEmoji: '⛄',
-    decorativeEmojis: ['✧', '❄', '✧'],
-    closingLine: 'A calm note of gratitude'
-  },
-  {
-    id: 'warm-fireplace',
-    name: 'Warm Fireplace',
-    shortName: 'Fireplace',
-    description: 'โทนอบอุ่นเหมือนเตาผิง เหมาะกับข้อความขอบคุณจากใจ',
-    headerBg: 'bg-[linear-gradient(135deg,#431407,#92400e,#dc2626)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#fff7ed,#ffffff)]',
-    frameClass: 'border-orange-200 shadow-orange-950/10',
-    patternClass: 'bg-[radial-gradient(circle_at_28%_22%,rgba(253,186,116,0.55)_0_5px,transparent_6px),radial-gradient(circle_at_70%_60%,rgba(254,215,170,0.35)_0_8px,transparent_9px)]',
-    accentText: 'text-orange-900',
-    eyebrowText: 'text-orange-700',
-    ribbonColor: 'bg-red-600 text-white',
-    sealClass: 'bg-orange-50 border-orange-200 text-orange-800',
-    illustration: '🔥',
-    stampEmoji: '🧦',
-    decorativeEmojis: ['☕', '✦', '🧦'],
-    closingLine: 'Warm wishes from the heart'
-  },
-  {
-    id: 'candy-cane',
-    name: 'Candy Cane',
-    shortName: 'Candy Cane',
-    description: 'สดใส น่ารัก ลายแคนดี้เคน เหมาะกับข้อความสนุก เป็นกันเอง',
-    headerBg: 'bg-[repeating-linear-gradient(135deg,#dc2626_0_16px,#ffffff_16px_28px,#f43f5e_28px_44px)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#fff1f2,#ffffff)]',
-    frameClass: 'border-rose-200 shadow-rose-950/10',
-    patternClass: 'bg-[radial-gradient(circle_at_25%_30%,rgba(244,63,94,0.25)_0_5px,transparent_6px),radial-gradient(circle_at_78%_70%,rgba(220,38,38,0.18)_0_6px,transparent_7px)]',
-    accentText: 'text-rose-700',
-    eyebrowText: 'text-rose-600',
-    ribbonColor: 'bg-white text-rose-700 border border-rose-200',
-    sealClass: 'bg-rose-50 border-rose-200 text-rose-700',
-    illustration: '🍬',
-    stampEmoji: '🔔',
-    decorativeEmojis: ['🍬', '✦', '🔔'],
-    closingLine: 'Sweet words, brighter days'
-  },
-  {
-    id: 'golden-ribbon',
-    name: 'Golden Ribbon',
-    shortName: 'Golden Ribbon',
-    description: 'ทองหรู ดูภูมิฐาน เหมาะกับข้อความชื่นชมผู้บริหารหรือทีมสำคัญ',
-    headerBg: 'bg-[linear-gradient(135deg,#78350f,#d97706,#facc15)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#fffbeb,#ffffff)]',
-    frameClass: 'border-yellow-200 shadow-yellow-950/10',
-    patternClass: 'bg-[radial-gradient(circle_at_30%_30%,rgba(250,204,21,0.45)_0_3px,transparent_4px),linear-gradient(90deg,transparent_0_42%,rgba(217,119,6,0.16)_42%_46%,transparent_46%_100%)]',
-    accentText: 'text-yellow-800',
-    eyebrowText: 'text-yellow-700',
-    ribbonColor: 'bg-emerald-800 text-white',
-    sealClass: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-    illustration: '🎗️',
-    stampEmoji: '🍪',
-    decorativeEmojis: ['✦', '🏅', '✦'],
-    closingLine: 'A golden note of recognition'
+    id: 'premium-emerald',
+    name: 'Premium Emerald',
+    shortName: 'Emerald',
+    description: 'เขียวมรกตทอง ดูพรีเมียม สุภาพ เหมาะกับผู้บริหารหรือหัวหน้า',
+    headerBg: 'bg-[linear-gradient(135deg,#022c22,#047857,#22c55e)]',
+    bodyBg: 'bg-[linear-gradient(180deg,#ecfdf5,#ffffff)]',
+    frameClass: 'border-emerald-200 shadow-emerald-950/10',
+    patternClass: 'bg-[radial-gradient(circle_at_18%_22%,rgba(167,243,208,0.5)_0_5px,transparent_6px),radial-gradient(circle_at_76%_62%,rgba(16,185,129,0.22)_0_7px,transparent_8px)]',
+    accentText: 'text-emerald-800',
+    eyebrowText: 'text-emerald-700',
+    ribbonColor: 'bg-amber-300 text-emerald-950',
+    sealClass: 'bg-emerald-50 border-emerald-200 text-emerald-800',
+    illustration: '✦',
+    stampEmoji: '🏅',
+    decorativeEmojis: ['✦', '◆', '✦'],
+    closingLine: 'Growing better together',
+    yakStickerSrc: '/stickers/yak-great.png',
+    yakPosition: 'bottom-right'
   },
   {
     id: 'minimal-snow',
     name: 'Minimal Snow',
-    shortName: 'Minimal Snow',
+    shortName: 'Minimal',
     description: 'ขาวสะอาด มินิมอล อ่านง่าย เหมาะกับข้อความยาวหรือโทนทางการ',
     headerBg: 'bg-[linear-gradient(135deg,#e2e8f0,#f8fafc,#cbd5e1)]',
     bodyBg: 'bg-white',
@@ -188,52 +235,18 @@ export const CARD_THEMES: CardTheme[] = [
     eyebrowText: 'text-slate-500',
     ribbonColor: 'bg-slate-900 text-white',
     sealClass: 'bg-slate-50 border-slate-200 text-slate-700',
-    illustration: '☃️',
-    stampEmoji: '🧤',
+    illustration: '❄',
+    stampEmoji: '❄',
     decorativeEmojis: ['❄', '·', '❄'],
-    closingLine: 'Simple words, meaningful impact'
+    closingLine: 'Simple words, meaningful impact',
+    yakStickerSrc: '/stickers/yak-mini-heart-(no heart).png',
+    yakPosition: 'bottom-right'
   },
   {
-    id: 'cozy-green',
-    name: 'Cozy Green',
-    shortName: 'Cozy Green',
-    description: 'เขียวสน อบอุ่น สื่อถึงการเติบโตและพลังบวกในทีม',
-    headerBg: 'bg-[linear-gradient(135deg,#064e3b,#047857,#0f766e)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#ecfdf5,#ffffff)]',
-    frameClass: 'border-emerald-200 shadow-emerald-950/10',
-    patternClass: 'bg-[radial-gradient(circle_at_18%_22%,rgba(167,243,208,0.5)_0_5px,transparent_6px),radial-gradient(circle_at_76%_62%,rgba(16,185,129,0.22)_0_7px,transparent_8px)]',
-    accentText: 'text-emerald-800',
-    eyebrowText: 'text-emerald-700',
-    ribbonColor: 'bg-red-700 text-white',
-    sealClass: 'bg-emerald-50 border-emerald-200 text-emerald-800',
-    illustration: '🌲',
-    stampEmoji: '🦉',
-    decorativeEmojis: ['🌿', '✦', '🎄'],
-    closingLine: 'Growing better together'
-  },
-  {
-    id: 'red-celebration',
-    name: 'Red Celebration',
-    shortName: 'Celebration',
-    description: 'แดงสดใส สนุก มีพลัง เหมาะกับการชื่นชมความสำเร็จ',
-    headerBg: 'bg-[linear-gradient(135deg,#991b1b,#e11d48,#fb7185)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#fff1f2,#ffffff)]',
-    frameClass: 'border-red-200 shadow-red-950/10',
-    patternClass: 'bg-[radial-gradient(circle_at_24%_28%,rgba(255,255,255,0.6)_0_2px,transparent_3px),radial-gradient(circle_at_76%_20%,rgba(254,202,202,0.7)_0_4px,transparent_5px)]',
-    accentText: 'text-red-700',
-    eyebrowText: 'text-red-600',
-    ribbonColor: 'bg-amber-300 text-red-950',
-    sealClass: 'bg-red-50 border-red-200 text-red-700',
-    illustration: '🎉',
-    stampEmoji: '🥂',
-    decorativeEmojis: ['🎉', '✦', '🥂'],
-    closingLine: 'Cheers to your great work'
-  },
-  {
-    id: 'starry-appreciation',
-    name: 'Starry Appreciation',
-    shortName: 'Starry',
-    description: 'ดำทองแบบพรีเมียม ให้ความรู้สึกพิเศษและน่าจดจำ',
+    id: 'midnight-appreciation',
+    name: 'Midnight Appreciation',
+    shortName: 'Midnight',
+    description: 'น้ำเงินเข้มทอง ดูพิเศษ เหมาะกับข้อความที่อยากให้จดจำ',
     headerBg: 'bg-[linear-gradient(135deg,#020617,#111827,#713f12)]',
     bodyBg: 'bg-[linear-gradient(180deg,#fafaf9,#ffffff)]',
     frameClass: 'border-amber-200 shadow-zinc-950/10',
@@ -245,24 +258,78 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '⭐',
     stampEmoji: '✨',
     decorativeEmojis: ['✦', '⭐', '✦'],
-    closingLine: 'Your impact shines bright'
+    closingLine: 'Your impact shines bright',
+    yakStickerSrc: '/stickers/yak-Love.png',
+    yakPosition: 'bottom-right'
   },
   {
-    id: 'corporate-festive',
-    name: 'Corporate Festive',
-    shortName: 'Corporate',
-    description: 'สุภาพแบบองค์กร ผสมความ festive เหมาะกับทุกระดับในบริษัท',
-    headerBg: 'bg-[linear-gradient(135deg,#1e3a8a,#0369a1,#0f172a)]',
-    bodyBg: 'bg-[linear-gradient(180deg,#eff6ff,#ffffff)]',
-    frameClass: 'border-blue-200 shadow-blue-950/10',
-    patternClass: 'bg-[linear-gradient(135deg,rgba(255,255,255,0.18)_0_20%,transparent_20%_40%,rgba(255,255,255,0.12)_40%_60%,transparent_60%_100%)]',
-    accentText: 'text-blue-900',
-    eyebrowText: 'text-blue-700',
-    ribbonColor: 'bg-orange-500 text-white',
-    sealClass: 'bg-blue-50 border-blue-200 text-blue-800',
-    illustration: '🏢',
-    stampEmoji: '💼',
-    decorativeEmojis: ['✦', '🤝', '✦'],
-    closingLine: 'Together we make it happen'
+    id: 'festive-pop',
+    name: 'Festive Pop',
+    shortName: 'Festive',
+    description: 'สดใส สนุก เป็นกันเอง เหมาะกับเพื่อนร่วมงานและทีม',
+    headerBg: 'bg-[linear-gradient(135deg,#9f1239,#fb7185,#f97316)]',
+    bodyBg: 'bg-[linear-gradient(180deg,#fff1f2,#ffffff)]',
+    frameClass: 'border-rose-200 shadow-rose-950/10',
+    patternClass: 'bg-[radial-gradient(circle_at_24%_28%,rgba(255,255,255,0.6)_0_2px,transparent_3px),radial-gradient(circle_at_76%_20%,rgba(254,202,202,0.7)_0_4px,transparent_5px)]',
+    accentText: 'text-rose-700',
+    eyebrowText: 'text-rose-600',
+    ribbonColor: 'bg-white text-rose-700 border border-rose-200',
+    sealClass: 'bg-rose-50 border-rose-200 text-rose-700',
+    illustration: '🎉',
+    stampEmoji: '🥂',
+    decorativeEmojis: ['🎉', '✦', '🥂'],
+    closingLine: 'Cheers to your great work',
+    yakStickerSrc: '/stickers/yak-SayHi.png',
+    yakPosition: 'bottom-right'
+  },
+  {
+    id: 'custom',
+    name: 'Custom Card',
+    shortName: 'Custom',
+    description: 'เลือกสีหัวการ์ดและตำแหน่งพี่ยักษ์เองแบบง่าย ๆ',
+    headerBg: HEADER_COLOR_OPTIONS[0].headerBg,
+    bodyBg: 'bg-[linear-gradient(180deg,#fffaf0,#ffffff)]',
+    frameClass: HEADER_COLOR_OPTIONS[0].frameClass,
+    patternClass: 'bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.45)_0_2px,transparent_3px),radial-gradient(circle_at_80%_30%,rgba(251,191,36,0.35)_0_2px,transparent_3px)]',
+    accentText: HEADER_COLOR_OPTIONS[0].accentText,
+    eyebrowText: HEADER_COLOR_OPTIONS[0].eyebrowText,
+    ribbonColor: HEADER_COLOR_OPTIONS[0].ribbonColor,
+    sealClass: HEADER_COLOR_OPTIONS[0].sealClass,
+    illustration: '🎨',
+    stampEmoji: '✨',
+    decorativeEmojis: ['✦', '🎨', '✦'],
+    closingLine: 'Made just for you',
+    yakStickerSrc: YAK_STICKERS[0].src,
+    yakPosition: DEFAULT_CUSTOM_OPTIONS.yakPosition,
+    isCustom: true
   }
 ];
+
+export function getHeaderColorOption(id: CustomCardOptions['headerColor']): HeaderColorOption {
+  return HEADER_COLOR_OPTIONS.find((option) => option.id === id) || HEADER_COLOR_OPTIONS[0];
+}
+
+export function getYakStickerOption(id: string): YakStickerOption {
+  return YAK_STICKERS.find((option) => option.id === id) || YAK_STICKERS[0];
+}
+
+export function resolveCardTheme(theme: CardTheme, customOptions?: CustomCardOptions): CardTheme {
+  if (!theme.isCustom || !customOptions) {
+    return theme;
+  }
+
+  const headerColor = getHeaderColorOption(customOptions.headerColor);
+  const yakSticker = getYakStickerOption(customOptions.yakStickerId);
+
+  return {
+    ...theme,
+    headerBg: headerColor.headerBg,
+    frameClass: headerColor.frameClass,
+    accentText: headerColor.accentText,
+    eyebrowText: headerColor.eyebrowText,
+    ribbonColor: headerColor.ribbonColor,
+    sealClass: headerColor.sealClass,
+    yakStickerSrc: yakSticker.src,
+    yakPosition: customOptions.yakPosition
+  };
+}

@@ -5,9 +5,8 @@
 
 import React from 'react';
 import { Sparkles } from 'lucide-react';
-import { CardTheme } from '../data';
-
-const DEFAULT_MASCOT_STICKER_SRC = '/stickers/yak-mini-heart.png';
+import { CardTheme, resolveCardTheme } from '../data';
+import { CustomCardOptions } from '../types';
 
 interface ECardPreviewProps {
   recipientName: string;
@@ -16,6 +15,7 @@ interface ECardPreviewProps {
   senderMode: 'named' | 'anonymous';
   senderAka: string;
   activeTheme: CardTheme;
+  customOptions?: CustomCardOptions;
 }
 
 // Helper function to auto-adjust message font size based on length
@@ -43,7 +43,9 @@ export default function ECardPreview({
   senderMode,
   senderAka,
   activeTheme,
+  customOptions,
 }: ECardPreviewProps) {
+  const visualTheme = resolveCardTheme(activeTheme, customOptions);
   const displayRecipient = recipientName || 'ชื่อผู้รับการ์ด';
   const displayMessage = message || 'เขียนข้อความขอบคุณ ความประทับใจ หรือคำชื่นชมในความทุ่มเทของคุณที่นี่ เพื่อส่งต่อความรู้สึกดี ๆ ให้คนในองค์กร';
   const displaySender = senderMode === 'anonymous'
@@ -52,6 +54,11 @@ export default function ECardPreview({
 
   const messageFontSizeClass = getMessageFontSize(message);
   const messageLineHeightClass = getMessageLineHeight(message);
+
+  const stickerPositionClass = visualTheme.yakPosition === 'bottom-left'
+    ? 'left-[-8px] bottom-[76px]'
+    : 'right-[-8px] bottom-[76px]';
+  const shouldShowSticker = Boolean(visualTheme.yakStickerSrc && visualTheme.yakPosition !== 'none');
 
   return (
     <div
@@ -64,18 +71,18 @@ export default function ECardPreview({
           <span>Live E-Card Preview</span>
         </h3>
         <span className="text-xs px-2.5 py-1 rounded-full bg-white text-stone-600 font-mono font-medium border border-stone-200">
-          {activeTheme.shortName}
+          {visualTheme.shortName}
         </span>
       </div>
 
       {/* Actual E-Card Container */}
       <div
         id="real-ecard"
-        className={`w-full max-w-[440px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${activeTheme.frameClass} transition-all duration-300 relative ${activeTheme.bodyBg}`}
+        className={`w-full max-w-[440px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
       >
         {/* Card Header */}
-        <div className={`h-44 ${activeTheme.headerBg} relative flex flex-col items-center justify-center overflow-hidden transition-all duration-300`}>
-          <div className={`absolute inset-0 opacity-80 ${activeTheme.patternClass}`} />
+        <div className={`h-44 ${visualTheme.headerBg} relative flex flex-col items-center justify-center overflow-hidden transition-all duration-300`}>
+          <div className={`absolute inset-0 opacity-80 ${visualTheme.patternClass}`} />
 
           {/* Soft light spots */}
           <div className="absolute -left-10 -top-12 h-36 w-36 rounded-full bg-white/15 blur-2xl" />
@@ -83,18 +90,18 @@ export default function ECardPreview({
 
           {/* Floating mini ornaments */}
           <div className="absolute left-6 top-6 text-white/80 text-xs font-bold tracking-widest">
-            {activeTheme.decorativeEmojis[0]}
+            {visualTheme.decorativeEmojis[0]}
           </div>
           <div className="absolute right-8 top-8 text-white/80 text-xs font-bold tracking-widest">
-            {activeTheme.decorativeEmojis[1]}
+            {visualTheme.decorativeEmojis[1]}
           </div>
           <div className="absolute left-10 bottom-7 text-white/70 text-xs font-bold tracking-widest">
-            {activeTheme.decorativeEmojis[2]}
+            {visualTheme.decorativeEmojis[2]}
           </div>
 
           <div className="z-10 text-center px-8">
             <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white/18 border border-white/25 shadow-xl backdrop-blur-sm text-4xl mb-3">
-              {activeTheme.illustration}
+              {visualTheme.illustration}
             </div>
             <div className="text-white font-extrabold text-xl tracking-[0.18em] uppercase font-sans drop-shadow-sm">
               Feedback is a Gift
@@ -105,7 +112,7 @@ export default function ECardPreview({
           </div>
 
           {/* Diagonal Ribbon */}
-          <div className={`absolute -right-12 -top-10 w-32 h-32 ${activeTheme.ribbonColor} rotate-45 flex items-end justify-center pb-3 shadow-xl`}>
+          <div className={`absolute -right-12 -top-10 w-32 h-32 ${visualTheme.ribbonColor} rotate-45 flex items-end justify-center pb-3 shadow-xl`}>
             <span className="font-black text-[10px] tracking-tight">2026</span>
           </div>
         </div>
@@ -114,25 +121,25 @@ export default function ECardPreview({
         <div className="p-7 md:p-8 flex flex-col gap-5 text-left relative">
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-stone-200 to-transparent" />
 
-          {/* Decorative mascot sticker.
-              Put the PNG at public/stickers/yak-mini-heart.png.
-              It is hidden automatically if the asset is not available yet. */}
-          <img
-            src={DEFAULT_MASCOT_STICKER_SRC}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-[72px] right-[-10px] z-0 w-24 sm:w-28 md:w-32 max-h-36 object-contain opacity-90 drop-shadow-xl select-none"
-            onError={(event) => {
-              event.currentTarget.style.display = 'none';
-            }}
-          />
+          {/* Decorative mascot sticker. Use PNG with transparent background for best result. */}
+          {shouldShowSticker && (
+            <img
+              src={visualTheme.yakStickerSrc}
+              alt=""
+              aria-hidden="true"
+              className={`pointer-events-none absolute ${stickerPositionClass} z-0 w-20 sm:w-24 md:w-28 max-h-32 object-contain opacity-95 drop-shadow-xl select-none`}
+              onError={(event) => {
+                event.currentTarget.style.display = 'none';
+              }}
+            />
+          )}
 
           {/* Recipient Details */}
           <div className="relative z-10 space-y-1.5">
-            <p className={`text-[10px] font-extrabold uppercase tracking-[0.22em] font-sans ${activeTheme.eyebrowText}`}>
+            <p className={`text-[10px] font-extrabold uppercase tracking-[0.22em] font-sans ${visualTheme.eyebrowText}`}>
               To My Colleague
             </p>
-            <h2 className={`text-2xl md:text-3xl font-black ${activeTheme.accentText} tracking-tight font-sans leading-tight`}>
+            <h2 className={`text-2xl md:text-3xl font-black ${visualTheme.accentText} tracking-tight font-sans leading-tight`}>
               คุณ {displayRecipient}
             </h2>
             {recipientDepartment && (
@@ -144,11 +151,11 @@ export default function ECardPreview({
 
           {/* Message Block */}
           <div className="relative z-10 my-1 rounded-3xl bg-white/72 border border-white/80 shadow-sm px-5 py-5 min-h-[128px] max-h-[190px] overflow-y-auto">
-            <span className={`absolute -top-4 left-4 text-6xl ${activeTheme.accentText} opacity-10 font-serif italic select-none`}>“</span>
+            <span className={`absolute -top-4 left-4 text-6xl ${visualTheme.accentText} opacity-10 font-serif italic select-none`}>“</span>
             <p className={`text-stone-700 font-sans italic z-10 relative break-words whitespace-pre-wrap ${messageFontSizeClass} ${messageLineHeightClass}`}>
               {displayMessage}
             </p>
-            <span className={`absolute -bottom-7 right-4 text-6xl ${activeTheme.accentText} opacity-10 font-serif italic select-none`}>”</span>
+            <span className={`absolute -bottom-7 right-4 text-6xl ${visualTheme.accentText} opacity-10 font-serif italic select-none`}>”</span>
           </div>
 
           {/* Closing / Footer */}
@@ -160,14 +167,14 @@ export default function ECardPreview({
               <p className="font-extrabold text-stone-800 font-sans text-sm md:text-base truncate">
                 {displaySender}
               </p>
-              <p className={`text-[10px] font-semibold ${activeTheme.eyebrowText}`}>
-                {activeTheme.closingLine}
+              <p className={`text-[10px] font-semibold ${visualTheme.eyebrowText}`}>
+                {visualTheme.closingLine}
               </p>
             </div>
 
             {/* Seal Stamp */}
-            <div className={`h-14 w-14 rounded-full border shadow-sm flex flex-col items-center justify-center select-none shrink-0 ${activeTheme.sealClass}`}>
-              <span className="text-xl leading-none">{activeTheme.stampEmoji}</span>
+            <div className={`h-14 w-14 rounded-full border shadow-sm flex flex-col items-center justify-center select-none shrink-0 ${visualTheme.sealClass}`}>
+              <span className="text-xl leading-none">{visualTheme.stampEmoji}</span>
               <span className="text-[7px] font-black uppercase tracking-wider mt-0.5">Gift</span>
             </div>
           </div>

@@ -5,8 +5,8 @@
 
 import React, { useState } from 'react';
 import { User, Eye, Send, Sparkles, AlertCircle, HelpCircle, Lightbulb } from 'lucide-react';
-import { Employee, ECard } from '../types';
-import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme } from '../data';
+import { Employee, ECard, CustomCardOptions, YakStickerPosition } from '../types';
+import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme, DEFAULT_CUSTOM_OPTIONS, HEADER_COLOR_OPTIONS, YAK_STICKERS } from '../data';
 import RecipientSearch from './RecipientSearch';
 import ECardPreview from './ECardPreview';
 import { saveCardToLocalStorage } from '../services/cardStorageService';
@@ -24,7 +24,8 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
   const [senderAka, setSenderAka] = useState('');
   const [selectedRecipient, setSelectedRecipient] = useState<Employee | null>(null);
   const [message, setMessage] = useState('');
-  const [selectedThemeId, setSelectedThemeId] = useState('classic-gift');
+  const [selectedThemeId, setSelectedThemeId] = useState('warm-gift');
+  const [customOptions, setCustomOptions] = useState<CustomCardOptions>(DEFAULT_CUSTOM_OPTIONS);
   
   // UX states
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -32,6 +33,11 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
   const [showIdeas, setShowIdeas] = useState(false);
 
   const activeTheme = CARD_THEMES.find((t) => t.id === selectedThemeId) || CARD_THEMES[0];
+  const isCustomTheme = activeTheme.isCustom === true;
+
+  const updateCustomOptions = (patch: Partial<CustomCardOptions>) => {
+    setCustomOptions((current) => ({ ...current, ...patch }));
+  };
 
   const handleApplyIdea = (text: string) => {
     setMessage(text);
@@ -105,6 +111,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
         recipientDepartment: selectedRecipient!.department,
         message: message.trim(),
         templateId: selectedThemeId,
+        customOptions: isCustomTheme ? customOptions : undefined,
         emailStatus: 'mock',
         cardImageUrl: '',
         createdAt: new Date().toISOString(),
@@ -357,18 +364,18 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
             )}
           </div>
 
-          {/* SECTION 3: RECIPIENT THEME DESIGN COLOR PRESETS (10 options!) */}
+          {/* SECTION 3: CARD DESIGN PRESETS (5 default + 1 custom) */}
           <div className="space-y-3 border-t border-stone-100 pt-5">
             <div>
               <label className="block text-sm font-bold text-stone-800 font-sans">
-                สไตล์ลวดลายการ์ด E-Card (Holiday Card template - เลือกได้จาก 10 ลาย)
+                สไตล์ลวดลายการ์ด E-Card (5 แบบแนะนำ + Custom)
               </label>
               <p className="text-[11px] text-stone-400 font-sans mt-0.5">
-                แต่ละลายมีโทนสี พื้นหลัง ลวดลาย และตราประทับต่างกัน Preview จะเปลี่ยนทันที
+                เลือกจากแบบแนะนำ หรือใช้ Custom เพื่อเลือกสีหัวการ์ดและตำแหน่งพี่ยักษ์ได้
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[360px] overflow-y-auto p-1.5 border border-stone-200/60 rounded-2xl bg-stone-50/40">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto p-1.5 border border-stone-200/60 rounded-2xl bg-stone-50/40">
               {CARD_THEMES.map((theme) => (
                 <button
                   key={theme.id}
@@ -395,6 +402,100 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                 </button>
               ))}
             </div>
+
+            {isCustomTheme && (
+              <div className="rounded-2xl border border-amber-200 bg-amber-50/40 p-4 space-y-4 animate-fade-in">
+                <div>
+                  <h4 className="text-xs font-black text-stone-800 uppercase tracking-wider font-sans">
+                    Custom Card Controls
+                  </h4>
+                  <p className="text-[11px] text-stone-500 font-sans mt-0.5">
+                    ปรับเฉพาะสีหัวการ์ดและพี่ยักษ์ เพื่อให้ยังใช้งานง่าย ไม่กลายเป็น card editor เต็มระบบ
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-600 mb-2">
+                    สีหัวการ์ด (Header Color)
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {HEADER_COLOR_OPTIONS.map((color) => (
+                      <button
+                        key={color.id}
+                        type="button"
+                        onClick={() => updateCustomOptions({ headerColor: color.id })}
+                        className={`rounded-xl border p-2 text-left transition-all ${
+                          customOptions.headerColor === color.id
+                            ? 'border-red-650 ring-2 ring-red-650 bg-white'
+                            : 'border-stone-200 bg-white hover:border-stone-300'
+                        }`}
+                      >
+                        <div className={`h-8 rounded-lg ${color.headerBg} mb-1.5`} />
+                        <span className="text-[10px] font-bold text-stone-700">{color.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-600 mb-2">
+                    เลือกพี่ยักษ์ (Yak Sticker)
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {YAK_STICKERS.map((sticker) => (
+                      <button
+                        key={sticker.id}
+                        type="button"
+                        onClick={() => updateCustomOptions({ yakStickerId: sticker.id })}
+                        className={`rounded-xl border p-2 text-left transition-all flex items-center gap-2 ${
+                          customOptions.yakStickerId === sticker.id
+                            ? 'border-red-650 ring-2 ring-red-650 bg-white'
+                            : 'border-stone-200 bg-white hover:border-stone-300'
+                        }`}
+                      >
+                        <img
+                          src={sticker.src}
+                          alt=""
+                          className="h-9 w-9 object-contain shrink-0"
+                          onError={(event) => {
+                            event.currentTarget.style.display = 'none';
+                          }}
+                        />
+                        <span className="text-[10px] font-bold text-stone-700 leading-tight">
+                          {sticker.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-600 mb-2">
+                    ตำแหน่งพี่ยักษ์ (Sticker Position)
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { value: 'bottom-left', label: 'ซ้าย' },
+                      { value: 'bottom-right', label: 'ขวา' },
+                      { value: 'none', label: 'ไม่แสดง' },
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => updateCustomOptions({ yakPosition: option.value as YakStickerPosition })}
+                        className={`rounded-xl border px-3 py-2 text-xs font-bold transition-all ${
+                          customOptions.yakPosition === option.value
+                            ? 'border-red-650 ring-2 ring-red-650 bg-white text-red-700'
+                            : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* SECTION 4: POSITIVE FEEDBACK MESSAGE INPUT */}
@@ -520,6 +621,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
             senderMode={senderMode}
             senderAka={senderAka}
             activeTheme={activeTheme}
+            customOptions={isCustomTheme ? customOptions : undefined}
           />
         </div>
 
