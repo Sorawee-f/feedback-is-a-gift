@@ -1,0 +1,6 @@
+{
+  "name": "Feedback is a Gift",
+  "description": "An internal E-Card platform for sending friendly, Christmas-themed appreciation cards and positive feedback in the organization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
