@@ -46,6 +46,8 @@ export default function ECardPreview({
   customOptions,
 }: ECardPreviewProps) {
   const visualTheme = resolveCardTheme(activeTheme, customOptions);
+  const headerTitleClass = visualTheme.headerTitleClass || 'text-white drop-shadow-sm';
+  const headerSubtitleClass = visualTheme.headerSubtitleClass || 'text-white/75';
   const displayRecipient = recipientName || 'ชื่อผู้รับการ์ด';
   const displayMessage = message || 'เขียนข้อความขอบคุณ ความประทับใจ หรือคำชื่นชมในความทุ่มเทของคุณที่นี่ เพื่อส่งต่อความรู้สึกดี ๆ ให้คนในองค์กร';
   const displaySender = senderMode === 'anonymous'
@@ -55,9 +57,8 @@ export default function ECardPreview({
   const messageFontSizeClass = getMessageFontSize(message);
   const messageLineHeightClass = getMessageLineHeight(message);
 
-  const stickerPositionClass = 'right-[-10px] bottom-[46px]';
+  const stickerPositionClass = 'right-[22px] bottom-[34px]';
   const shouldShowSticker = Boolean(visualTheme.yakStickerSrc && visualTheme.yakPosition !== 'none');
-  const footerPaddingClass = shouldShowSticker ? 'pr-24 sm:pr-28 md:pr-32' : '';
 
   return (
     <div
@@ -77,7 +78,7 @@ export default function ECardPreview({
       {/* Actual E-Card Container */}
       <div
         id="real-ecard"
-        className={`w-full max-w-[500px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
+        className={`w-full max-w-[480px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
       >
         {/* Card Header */}
         <div className={`h-44 ${visualTheme.headerBg} relative flex flex-col items-center justify-center overflow-hidden transition-all duration-300`}>
@@ -102,17 +103,22 @@ export default function ECardPreview({
             <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white/18 border border-white/25 shadow-xl backdrop-blur-sm text-4xl mb-3">
               {visualTheme.illustration}
             </div>
-            <div className="text-white font-extrabold text-xl tracking-[0.18em] uppercase font-sans drop-shadow-sm">
+            <div className={`${headerTitleClass} font-extrabold text-xl tracking-[0.18em] uppercase font-sans`}>
               Feedback is a Gift
             </div>
-            <div className="text-white/75 text-[10px] font-semibold uppercase tracking-[0.26em] font-sans mt-1">
+            <div className={`${headerSubtitleClass} text-[10px] font-semibold uppercase tracking-[0.26em] font-sans mt-1`}>
               Season of Appreciation
             </div>
           </div>
 
-          {/* Diagonal Ribbon */}
-          <div className={`absolute -right-12 -top-10 w-32 h-32 ${visualTheme.ribbonColor} rotate-45 flex items-end justify-center pb-3 shadow-xl`}>
-            <span className="font-black text-[10px] tracking-tight">2026</span>
+          {/* Hanging Ribbon */}
+          <div
+            className={`absolute right-5 top-0 z-20 flex h-[58px] w-[104px] items-start justify-center pt-3 shadow-xl ${visualTheme.ribbonColor}`}
+            style={{
+              clipPath: 'polygon(0 0,100% 0,100% 72%,58% 72%,50% 100%,42% 72%,0 72%)'
+            }}
+          >
+            <span className="font-black text-[13px] tracking-wide">2026</span>
           </div>
         </div>
 
@@ -126,7 +132,7 @@ export default function ECardPreview({
               src={visualTheme.yakStickerSrc}
               alt=""
               aria-hidden="true"
-              className={`pointer-events-none absolute ${stickerPositionClass} z-20 w-24 sm:w-28 md:w-32 max-h-40 object-contain opacity-95 drop-shadow-xl select-none`}
+              className={`pointer-events-none absolute ${stickerPositionClass} z-0 w-24 sm:w-28 md:w-32 max-h-40 object-contain opacity-95 drop-shadow-xl select-none`}
               onError={(event) => {
                 event.currentTarget.style.display = 'none';
               }}
@@ -134,7 +140,7 @@ export default function ECardPreview({
           )}
 
           {/* Recipient Details */}
-          <div className="relative z-10 space-y-1.5">
+          <div className="relative z-10 space-y-1.5 pr-20">
             <p className={`text-[10px] font-extrabold uppercase tracking-[0.22em] font-sans ${visualTheme.eyebrowText}`}>
               To My Colleague
             </p>
@@ -153,7 +159,7 @@ export default function ECardPreview({
           </div>
 
           {/* Closing / Footer */}
-          <div className={`relative z-10 pt-4 ${footerPaddingClass} border-t border-dashed border-stone-200`}>
+          <div className="relative z-10 pt-4 border-t border-dashed border-stone-200 flex justify-between items-end gap-4">
             <div className="space-y-1 min-w-0">
               <p className="text-[9px] text-stone-400 uppercase tracking-widest font-sans">
                 Warmest wishes from

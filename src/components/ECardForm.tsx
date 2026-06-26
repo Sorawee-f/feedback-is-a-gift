@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { Send, Lightbulb } from 'lucide-react';
+import { User, Eye, Send, Sparkles, AlertCircle, HelpCircle, Lightbulb } from 'lucide-react';
 import { Employee, ECard, CustomCardOptions, YakStickerPosition } from '../types';
 import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme, DEFAULT_CUSTOM_OPTIONS, HEADER_COLOR_OPTIONS, YAK_STICKERS } from '../data';
 import RecipientSearch from './RecipientSearch';
@@ -18,6 +18,7 @@ interface ECardFormProps {
 
 export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
   // Input states
+  const senderMode: 'named' = 'named';
   const [employeeCode, setEmployeeCode] = useState('');
   const [senderBU, setSenderBU] = useState<'TVB' | 'VG3' | 'TR' | 'TRL' | 'YOD' | 'SS' | 'EVP' | 'TRC' | ''>('');
   const [senderAka, setSenderAka] = useState('');
@@ -75,7 +76,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
       newErrors.senderBU = 'กรุณาเลือกกลุ่มบริษัท / ฝ่าย (BU is required)';
     }
 
-    // Sender display name validation
+    // Sender Name / AKA validation (named-only)
     if (!senderAka.trim()) {
       newErrors.senderAka = 'กรุณาระบุนามแฝง/ชื่อที่ใช้แสดงบนการ์ด (Sender Display Name is required)';
     }
@@ -259,10 +260,10 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
               </div>
             </div>
 
-            {/* Sender Display Name (AKA) Input */}
+            {/* Sender Display Name (named-only) */}
             <div id="named-sender-inputs" className="bg-stone-50/70 p-4 rounded-2xl border border-stone-200/55 animate-fade-in space-y-1">
               <label className="block text-xs font-semibold text-stone-600 mb-1">
-                ชื่อเล่น / นามแฝงที่ใช้แสดงบนการ์ด (Sender AKA / Display Name) <span className="text-red-650">*</span>
+                ชื่อเล่น / นามแฝงผู้ใช้แสดงจริง (Sender AKA / Display Name) <span className="text-red-650">*</span>
               </label>
               <input
                 type="text"
@@ -284,7 +285,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                   errors.senderAka ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 focus:ring-emerald-700 focus:border-emerald-700'
                 } rounded-xl text-sm font-sans outline-none focus:ring-1 focus:bg-white`}
               />
-              <span className="text-[10px] text-stone-400 block mt-1">ชื่อนี้จะปรากฏในส่วน Warmest wishes from ด้านล่างการ์ด</span>
+              <span className="text-[10px] text-stone-400 block mt-1">ชื่อนี้จะปรากฏในแท็ก Warmest wishes from ด้านล่างการ์ด</span>
               {errors.senderAka && (
                 <span className="text-[11px] text-red-650 font-medium block mt-1">• {errors.senderAka}</span>
               )}
@@ -544,7 +545,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
             recipientName={selectedRecipient ? selectedRecipient.nickname : ''}
             recipientDepartment={selectedRecipient ? selectedRecipient.department : ''}
             message={message}
-            senderMode="named"
+            senderMode={senderMode}
             senderAka={senderAka}
             activeTheme={activeTheme}
             customOptions={isCustomTheme ? customOptions : undefined}

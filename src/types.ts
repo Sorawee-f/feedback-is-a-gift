@@ -28,7 +28,7 @@ export interface ECard {
   senderMode: SenderMode;
   employeeCode: string; // 6-digit string
   senderBU: SenderBU;
-  senderAka: string; // display name shown on the card
+  senderAka: string; // display name shown if senderMode is Named
   recipientEmployeeId: string;
   recipientName: string;
   recipientEmail: string;
