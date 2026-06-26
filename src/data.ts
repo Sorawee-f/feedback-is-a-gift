@@ -9,7 +9,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP001',
     nickname: 'พลอย',
-    displayName: 'พลอย - Ploy S. - HR',
+    displayName: 'พลอย - Ploy - HR',
     email: 'ploy.s@company.com',
     department: 'HR',
     bu: 'TVB'
@@ -17,7 +17,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP002',
     nickname: 'พลอย',
-    displayName: 'พลอย - Ploy K. - Finance',
+    displayName: 'พลอย - Ploy - Finance',
     email: 'ploy.k@company.com',
     department: 'Finance',
     bu: 'VG3'
@@ -25,7 +25,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP003',
     nickname: 'เมย์',
-    displayName: 'เมย์ - May T. - Marketing',
+    displayName: 'เมย์ - May - Marketing',
     email: 'may.t@company.com',
     department: 'Marketing',
     bu: 'TR'
@@ -33,7 +33,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP004',
     nickname: 'บี',
-    displayName: 'บี - Bee N. - People Team',
+    displayName: 'บี - Bee - People Team',
     email: 'bee.n@company.com',
     department: 'People Team',
     bu: 'EVP'
