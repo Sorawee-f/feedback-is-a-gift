@@ -9,6 +9,8 @@ export interface Employee {
   displayName: string;
   email: string;
   department: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export type SenderMode = 'named' | 'anonymous';

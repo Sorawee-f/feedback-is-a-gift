@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Gift, Heart, Sparkles, AlertCircle, HelpCircle } from 'lucide-react';
 import { ECard } from './types';
 import { CardTheme } from './data';
 import LandingSection from './components/LandingSection';
 import ECardForm from './components/ECardForm';
 import SuccessMessage from './components/SuccessMessage';
+import { getCardsFromLocalStorage } from './services/cardStorageService';
 
 type ViewState = 'landing' | 'form' | 'success';
 
@@ -17,6 +18,11 @@ export default function App() {
   const [view, setView] = useState<ViewState>('landing');
   const [submittedCard, setSubmittedCard] = useState<ECard | null>(null);
   const [submittedTheme, setSubmittedTheme] = useState<CardTheme | null>(null);
+  const [cardsSentCount, setCardsSentCount] = useState(() => getCardsFromLocalStorage().length);
+
+  useEffect(() => {
+    setCardsSentCount(getCardsFromLocalStorage().length);
+  }, [view]);
 
   const handleStartWriting = () => {
     setView('form');
@@ -25,6 +31,7 @@ export default function App() {
   const handleFormSubmitSuccess = (card: ECard, theme: CardTheme) => {
     setSubmittedCard(card);
     setSubmittedTheme(theme);
+    setCardsSentCount(getCardsFromLocalStorage().length);
     setView('success');
   };
 
@@ -122,7 +129,7 @@ export default function App() {
         </span>
         <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-ping"></div>
         <span className="text-white text-[10px] md:text-xs uppercase tracking-[0.2em] font-sans opacity-95 font-bold">
-          1,248 Cards Sent This Season
+          {cardsSentCount.toLocaleString()} Cards Sent This Season
         </span>
       </div>
 
@@ -135,15 +142,13 @@ export default function App() {
               <span>แคมเปญ “Feedback is a Gift” 🎁</span>
               <span className="text-[10px] text-gray-400 font-normal">เพราะคำชอบคุณและทุกคำชื่นชมคือของขวัญอันคุ้มค่าของคนในองค์กร</span>
             </p>
-            <p className="text-[10px] text-gray-400 font-sans mt-0.5">
-              ระบบส่งบัตรอวยพรภายในองค์กร (V0 Prototype) • ออกแบบในสไตล์ Clean Minimalism
-            </p>
+
           </div>
 
           <div className="text-xs text-gray-400 font-sans flex items-center gap-3">
-            <span>Powered by Prompt font</span>
+            <span>Powered by HR | Organization Development Team</span>
             <span className="text-gray-300">|</span>
-            <span>Corporate Communications Team © 2026</span>
+            <span>© 2026</span>
           </div>
 
         </div>

@@ -10,6 +10,7 @@ import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme, DEFAULT_CUSTOM_OPTIONS, HEADER_
 import RecipientSearch from './RecipientSearch';
 import ECardPreview from './ECardPreview';
 import { saveCardToLocalStorage } from '../services/cardStorageService';
+import { submitCardToGoogleSheets } from '../services/googleSheetsService';
 
 interface ECardFormProps {
   onSubmitSuccess: (card: ECard, activeTheme: CardTheme) => void;
@@ -118,6 +119,9 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
       // V0.6 REQUIREMENT: Log mock card object to developer console
       console.log('--- [Feedback is a Gift] V0.6 TEMPLATE_POLISHED MOCK_CARD_CREATED ---', newCard);
       saveCardToLocalStorage(newCard);
+      submitCardToGoogleSheets(newCard).catch((error) => {
+        console.warn('[Feedback is a Gift] Google Sheets append was skipped or failed.', error);
+      });
 
       setIsSubmitting(false);
       onSubmitSuccess(newCard, activeTheme);
@@ -280,7 +284,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                   }
                 }}
                 maxLength={40}
-                placeholder="เช่น บี, พี่บี, Bee People Team"
+                placeholder="เช่น ฟิช, พี่ฟิช, พี่ที่เท่ๆใน HR"
                 className={`w-full px-3 py-2.5 bg-white border ${
                   errors.senderAka ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 focus:ring-emerald-700 focus:border-emerald-700'
                 } rounded-xl text-sm font-sans outline-none focus:ring-1 focus:bg-white`}

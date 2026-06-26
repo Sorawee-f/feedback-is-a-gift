@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, User, Mail, Briefcase, Check } from 'lucide-react';
 import { Employee } from '../types';
-import { MOCK_EMPLOYEES } from '../data';
+import { loadEmployeeDirectory } from '../services/employeeDataService';
 
 interface RecipientSearchProps {
   selectedRecipient: Employee | null;
@@ -22,25 +22,52 @@ export default function RecipientSearch({
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState<Employee[]>([]);
+  const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
+  const [isLoadingDirectory, setIsLoadingDirectory] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Load employee directory from Google Sheets CSV when configured, otherwise use mock data.
+  useEffect(() => {
+    let isMounted = true;
+
+    loadEmployeeDirectory()
+      .then((employees) => {
+        if (!isMounted) return;
+        setAllEmployees(employees);
+        setResults(employees);
+      })
+      .catch((error) => {
+        console.warn('[Feedback is a Gift] Employee directory failed to load.', error);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoadingDirectory(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Filter employees based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setResults(MOCK_EMPLOYEES);
+      setResults(allEmployees);
       return;
     }
 
     const query = searchQuery.toLowerCase();
-    const filtered = MOCK_EMPLOYEES.filter(
+    const filtered = allEmployees.filter(
       (emp) =>
         emp.nickname.toLowerCase().includes(query) ||
         emp.displayName.toLowerCase().includes(query) ||
+        (emp.firstName || '').toLowerCase().includes(query) ||
         emp.email.toLowerCase().includes(query) ||
         emp.department.toLowerCase().includes(query)
     );
     setResults(filtered);
-  }, [searchQuery]);
+  }, [searchQuery, allEmployees]);
 
   // Click outside to close dropdown
   useEffect(() => {
@@ -131,7 +158,7 @@ export default function RecipientSearch({
               className="absolute z-30 mt-2 w-full bg-white border border-stone-200 rounded-xl shadow-xl max-h-60 overflow-y-auto overflow-x-hidden p-1.5"
             >
               <div className="text-[11px] font-semibold text-stone-400 px-3 py-1.5 uppercase tracking-wide border-b border-stone-50 mb-1">
-                รายชื่อพนักงานทั้งหมด ({results.length})
+                {isLoadingDirectory ? 'กำลังโหลดรายชื่อพนักงาน...' : `รายชื่อพนักงานทั้งหมด (${results.length})`}
               </div>
               {results.length > 0 ? (
                 results.map((emp) => (
@@ -150,7 +177,7 @@ export default function RecipientSearch({
                         <div className="font-medium text-stone-800 text-sm flex items-center gap-2">
                           <span className="text-stone-900 font-semibold">{emp.nickname}</span>
                           <span className="text-stone-400 font-light text-xs">|</span>
-                          <span className="text-stone-600 text-xs">{emp.displayName.split(' - ')[1]}</span>
+                          <span className="text-stone-600 text-xs">{emp.displayName.split(' - ')[1] || emp.firstName || emp.email}</span>
                         </div>
                         <div className="flex items-center gap-1 text-xs text-stone-400 font-mono mt-0.5">
                           <Briefcase className="h-3 w-3 inline text-stone-400" />
