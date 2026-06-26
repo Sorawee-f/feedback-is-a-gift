@@ -57,7 +57,7 @@ export default function ECardPreview({
   const messageFontSizeClass = getMessageFontSize(message);
   const messageLineHeightClass = getMessageLineHeight(message);
 
-  const stickerPositionClass = 'right-[22px] bottom-[34px]';
+  const stickerPositionClass = 'right-[46px] bottom-[4px]';
   const shouldShowSticker = Boolean(visualTheme.yakStickerSrc && visualTheme.yakPosition !== 'none');
 
   return (
@@ -81,7 +81,7 @@ export default function ECardPreview({
         className={`w-full max-w-[480px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
       >
         {/* Card Header */}
-        <div className={`h-44 ${visualTheme.headerBg} relative flex flex-col items-center justify-center overflow-hidden transition-all duration-300`}>
+        <div className={`h-40 ${visualTheme.headerBg} relative flex flex-col items-center justify-center overflow-hidden transition-all duration-300`}>
           <div className={`absolute inset-0 opacity-80 ${visualTheme.patternClass}`} />
 
           {/* Soft light spots */}
@@ -100,10 +100,10 @@ export default function ECardPreview({
           </div>
 
           <div className="z-10 text-center px-8">
-            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-white/18 border border-white/25 shadow-xl backdrop-blur-sm text-4xl mb-3">
+            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/18 border border-white/25 shadow-xl backdrop-blur-sm text-3xl mb-2">
               {visualTheme.illustration}
             </div>
-            <div className={`${headerTitleClass} font-extrabold text-xl tracking-[0.18em] uppercase font-sans`}>
+            <div className={`${headerTitleClass} font-extrabold text-lg md:text-xl tracking-[0.16em] uppercase font-sans`}>
               Feedback is a Gift
             </div>
             <div className={`${headerSubtitleClass} text-[10px] font-semibold uppercase tracking-[0.26em] font-sans mt-1`}>
@@ -113,7 +113,7 @@ export default function ECardPreview({
 
           {/* Hanging Ribbon */}
           <div
-            className={`absolute right-5 top-0 z-20 flex h-[58px] w-[104px] items-start justify-center pt-3 shadow-xl ${visualTheme.ribbonColor}`}
+            className={`absolute right-5 top-0 z-20 flex h-[56px] w-[108px] items-start justify-center pt-3 shadow-xl ${visualTheme.ribbonColor}`}
             style={{
               clipPath: 'polygon(0 0,100% 0,100% 72%,58% 72%,50% 100%,42% 72%,0 72%)'
             }}
@@ -132,7 +132,7 @@ export default function ECardPreview({
               src={visualTheme.yakStickerSrc}
               alt=""
               aria-hidden="true"
-              className={`pointer-events-none absolute ${stickerPositionClass} z-0 w-24 sm:w-28 md:w-32 max-h-40 object-contain opacity-95 drop-shadow-xl select-none`}
+              className={`pointer-events-none absolute ${stickerPositionClass} z-0 w-[5.75rem] sm:w-[6.5rem] md:w-[7.25rem] max-h-36 object-contain opacity-95 drop-shadow-xl select-none`}
               onError={(event) => {
                 event.currentTarget.style.display = 'none';
               }}
@@ -150,12 +150,12 @@ export default function ECardPreview({
           </div>
 
           {/* Message Block */}
-          <div className="relative z-10 my-1 rounded-3xl bg-white/72 border border-white/80 shadow-sm px-5 py-5 min-h-[128px] max-h-[190px] overflow-y-auto">
-            <span className={`absolute -top-4 left-4 text-6xl ${visualTheme.accentText} opacity-10 font-serif italic select-none`}>“</span>
+          <div className="relative z-10 my-1 rounded-3xl bg-white/72 border border-white/80 shadow-sm px-5 pt-7 pb-5 min-h-[132px] max-h-[190px] overflow-y-auto">
+            <span className={`absolute top-1 left-4 text-5xl ${visualTheme.accentText} opacity-10 font-serif italic select-none`}>“</span>
             <p className={`text-stone-700 font-sans italic z-10 relative break-words whitespace-pre-wrap ${messageFontSizeClass} ${messageLineHeightClass}`}>
               {displayMessage}
             </p>
-            <span className={`absolute -bottom-7 right-4 text-6xl ${visualTheme.accentText} opacity-10 font-serif italic select-none`}>”</span>
+            <span className={`absolute -bottom-5 right-4 text-5xl ${visualTheme.accentText} opacity-10 font-serif italic select-none`}>”</span>
           </div>
 
           {/* Closing / Footer */}
