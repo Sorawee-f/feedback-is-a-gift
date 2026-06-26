@@ -80,3 +80,16 @@ Thai headers are also supported:
 ```
 
 If no URL is configured, the app uses mock employee data from `src/data.ts`.
+
+
+## Google Sheets employee directory
+
+Employees sheet headers supported:
+
+```text
+employeeId, firstName, lastName, nickname, department, email, BU, isActive
+```
+
+Search results show both department and BU. If `VITE_EMPLOYEE_SHEET_CSV_URL` is configured, the app loads the directory from Google Sheets CSV; otherwise it falls back to mock data.
+
+Cards sheet can include an optional `recipientBU` column for tracking the recipient's BU.

@@ -9,8 +9,10 @@ export interface Employee {
   displayName: string;
   email: string;
   department: string;
+  bu?: string;
   firstName?: string;
   lastName?: string;
+  isActive?: boolean;
 }
 
 export type SenderMode = 'named' | 'anonymous';
@@ -35,6 +37,7 @@ export interface ECard {
   recipientName: string;
   recipientEmail: string;
   recipientDepartment: string;
+  recipientBU?: string;
   message: string;
   templateId: string;
   customOptions?: CustomCardOptions;

@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, User, Mail, Briefcase, Check } from 'lucide-react';
+import { Search, Mail, Briefcase, Check, Building2 } from 'lucide-react';
 import { Employee } from '../types';
 import { loadEmployeeDirectory } from '../services/employeeDataService';
 
@@ -64,7 +64,8 @@ export default function RecipientSearch({
         emp.displayName.toLowerCase().includes(query) ||
         (emp.firstName || '').toLowerCase().includes(query) ||
         emp.email.toLowerCase().includes(query) ||
-        emp.department.toLowerCase().includes(query)
+        emp.department.toLowerCase().includes(query) ||
+        (emp.bu || '').toLowerCase().includes(query)
     );
     setResults(filtered);
   }, [searchQuery, allEmployees]);
@@ -111,6 +112,11 @@ export default function RecipientSearch({
                 <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold">
                   {selectedRecipient.department}
                 </span>
+                {selectedRecipient.bu && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold">
+                    BU: {selectedRecipient.bu}
+                  </span>
+                )}
               </div>
               <p className="text-xs text-stone-500 font-mono mt-0.5">{selectedRecipient.email}</p>
             </div>
@@ -182,6 +188,13 @@ export default function RecipientSearch({
                         <div className="flex items-center gap-1 text-xs text-stone-400 font-mono mt-0.5">
                           <Briefcase className="h-3 w-3 inline text-stone-400" />
                           <span>{emp.department}</span>
+                          {emp.bu && (
+                            <>
+                              <span className="mx-1">•</span>
+                              <Building2 className="h-3 w-3 inline text-amber-500" />
+                              <span className="font-semibold text-amber-700">BU: {emp.bu}</span>
+                            </>
+                          )}
                           <span className="mx-1">•</span>
                           <Mail className="h-3 w-3 inline text-stone-400" />
                           <span>{emp.email}</span>

@@ -108,6 +108,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
         recipientName: selectedRecipient!.nickname,
         recipientEmail: selectedRecipient!.email,
         recipientDepartment: selectedRecipient!.department,
+        recipientBU: selectedRecipient!.bu,
         message: message.trim(),
         templateId: selectedThemeId,
         customOptions: isCustomTheme ? customOptions : undefined,

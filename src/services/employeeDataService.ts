@@ -3,7 +3,7 @@
  *
  * Recommended setup:
  * - Keep employee master data in Google Sheets with headers:
- *   employeeId, firstName, nickname, department, email
+ *   employeeId, firstName, lastName, nickname, department, email, BU, isActive
  * - Publish the sheet as CSV or expose it via Apps Script.
  * - Store the CSV URL in Vercel as VITE_EMPLOYEE_SHEET_CSV_URL.
  * - If the env var is empty or loading fails, the app falls back to MOCK_EMPLOYEES.
@@ -65,26 +65,34 @@ function parseEmployeeCsv(csvText: string): Employee[] {
   return lines.slice(1).map((line, index) => {
     const cells = parseCsvLine(line);
     const firstName = findValue(cells, ['firstname', 'ชื่อจริง', 'name', 'fullname', 'ชื่อ']);
+    const lastName = findValue(cells, ['lastname', 'นามสกุล', 'surname']);
     const nickname = findValue(cells, ['nickname', 'ชื่อเล่น', 'aka']);
-    const department = findValue(cells, ['department', 'ฝ่าย', 'bu', 'businessunit']);
+    const department = findValue(cells, ['department', 'ฝ่าย', 'หน่วยงาน']);
+    const bu = findValue(cells, ['bu', 'businessunit', 'businessunit/bu', 'กลุ่มบริษัท', 'บริษัท']);
     const email = findValue(cells, ['email', 'อีเมล', 'mail']);
     const employeeId = findValue(cells, ['employeeid', 'รหัสพนักงาน', 'empid', 'id']) || `SHEET-${index + 1}`;
+    const isActiveRaw = findValue(cells, ['isactive', 'active', 'สถานะ']);
+    const isActive = !isActiveRaw || ['true', 'yes', 'y', '1', 'active', 'ใช้งาน'].includes(isActiveRaw.trim().toLowerCase());
 
     const displayNameParts = [
       nickname || firstName || `พนักงาน ${index + 1}`,
-      firstName,
+      [firstName, lastName].filter(Boolean).join(' '),
       department,
+      bu,
     ].filter(Boolean);
 
     return {
       employeeId,
       firstName,
+      lastName,
       nickname: nickname || firstName || `พนักงาน ${index + 1}`,
       displayName: displayNameParts.join(' - '),
       email,
       department,
+      bu,
+      isActive,
     };
-  }).filter((employee) => employee.email && employee.nickname);
+  }).filter((employee) => employee.email && employee.nickname && employee.isActive !== false);
 }
 
 export async function loadEmployeeDirectory(): Promise<Employee[]> {

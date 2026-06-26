@@ -22,6 +22,7 @@ export interface GoogleSheetsCardRow {
   recipientName: string;
   recipientEmail: string;
   recipientDepartment: string;
+  recipientBU: string;
   message: string;
   templateId: string;
   yakStickerId: string;
@@ -40,6 +41,7 @@ export function mapCardToGoogleSheetsRow(card: ECard): GoogleSheetsCardRow {
     recipientName: card.recipientName,
     recipientEmail: card.recipientEmail,
     recipientDepartment: card.recipientDepartment,
+    recipientBU: card.recipientBU || '',
     message: card.message,
     templateId: card.templateId,
     yakStickerId: card.customOptions?.yakStickerId || '',
