@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { toPng } from 'html-to-image';
 import { User, Eye, Send, Sparkles, AlertCircle, HelpCircle, Lightbulb } from 'lucide-react';
 import { Employee, ECard, CustomCardOptions, YakStickerPosition } from '../types';
 import { CARD_THEMES, FEEDBACK_IDEAS, CardTheme, DEFAULT_CUSTOM_OPTIONS, HEADER_COLOR_OPTIONS, YAK_STICKERS } from '../data';
 import RecipientSearch from './RecipientSearch';
 import ECardPreview from './ECardPreview';
 import { saveCardToLocalStorage } from '../services/cardStorageService';
-import { submitCardToGoogleSheets } from '../services/googleSheetsService';
+import { CardImagePayload, submitCardToGoogleSheets } from '../services/googleSheetsService';
 
 interface ECardFormProps {
   onSubmitSuccess: (card: ECard, activeTheme: CardTheme) => void;
@@ -34,6 +35,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
   const [showIdeas, setShowIdeas] = useState(false);
 
   const activeTheme = CARD_THEMES.find((t) => t.id === selectedThemeId) || CARD_THEMES[0];
+  const ecardCaptureRef = useRef<HTMLDivElement | null>(null);
   const isCustomTheme = activeTheme.isCustom === true;
 
   const updateCustomOptions = (patch: Partial<CustomCardOptions>) => {
@@ -86,6 +88,33 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
     return Object.keys(newErrors).length === 0;
   };
 
+
+  const generateCardImagePayload = async (cardId: string): Promise<CardImagePayload | undefined> => {
+    const cardNode = ecardCaptureRef.current;
+    if (!cardNode) {
+      return undefined;
+    }
+
+    try {
+      const dataUrl = await toPng(cardNode, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: '#ffffff',
+      });
+
+      const base64 = dataUrl.replace(/^data:image\/png;base64,/, '');
+
+      return {
+        base64,
+        mimeType: 'image/png',
+        fileName: `ecard-${cardId}.png`,
+      };
+    } catch (error) {
+      console.warn('[Feedback is a Gift] PNG generation failed. Falling back to email without image.', error);
+      return undefined;
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -95,7 +124,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
     setIsSubmitting(true);
 
     // Simulate short interactive holiday delivery animation
-    setTimeout(() => {
+    setTimeout(async () => {
       const generatedMockCardId = `card-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
       
       const newCard: ECard = {
@@ -117,11 +146,11 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
         createdAt: new Date().toISOString(),
       };
 
-      // V0.6 REQUIREMENT: Log mock card object to developer console
-      console.log('--- [Feedback is a Gift] V0.6 TEMPLATE_POLISHED MOCK_CARD_CREATED ---', newCard);
+      const cardImage = await generateCardImagePayload(generatedMockCardId);
+
       saveCardToLocalStorage(newCard);
-      submitCardToGoogleSheets(newCard).catch((error) => {
-        console.warn('[Feedback is a Gift] Google Sheets append was skipped or failed.', error);
+      submitCardToGoogleSheets(newCard, cardImage).catch((error) => {
+        console.warn('[Feedback is a Gift] Google Sheets append/email delivery was skipped or failed.', error);
       });
 
       setIsSubmitting(false);
@@ -554,6 +583,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
             senderAka={senderAka}
             activeTheme={activeTheme}
             customOptions={isCustomTheme ? customOptions : undefined}
+            cardRef={ecardCaptureRef}
           />
         </div>
 

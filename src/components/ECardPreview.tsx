@@ -16,6 +16,7 @@ interface ECardPreviewProps {
   senderAka: string;
   activeTheme: CardTheme;
   customOptions?: CustomCardOptions;
+  cardRef?: React.Ref<HTMLDivElement>;
 }
 
 // Helper function to auto-adjust message font size based on length
@@ -44,6 +45,7 @@ export default function ECardPreview({
   senderAka,
   activeTheme,
   customOptions,
+  cardRef,
 }: ECardPreviewProps) {
   const visualTheme = resolveCardTheme(activeTheme, customOptions);
   const headerTitleClass = visualTheme.headerTitleClass || 'text-white drop-shadow-sm';
@@ -78,6 +80,7 @@ export default function ECardPreview({
       {/* Actual E-Card Container */}
       <div
         id="real-ecard"
+        ref={cardRef}
         className={`w-full max-w-[480px] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border ${visualTheme.frameClass} transition-all duration-300 relative ${visualTheme.bodyBg}`}
       >
         {/* Card Header */}
