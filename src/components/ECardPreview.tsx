@@ -142,7 +142,7 @@ export default function ECardPreview({
           {/* Recipient Details */}
           <div className="relative z-10 space-y-1.5 pr-20">
             <p className={`text-[10px] font-extrabold uppercase tracking-[0.22em] font-sans ${visualTheme.eyebrowText}`}>
-              To My Colleague
+              ส่งถึง
             </p>
             <h2 className={`text-xl md:text-2xl font-black ${visualTheme.accentText} tracking-tight font-sans leading-tight break-words`}>
               คุณ {displayRecipient}{recipientDepartment ? ` : ${recipientDepartment}` : ''}
@@ -162,7 +162,7 @@ export default function ECardPreview({
           <div className="relative z-10 pt-4 border-t border-dashed border-stone-200 flex justify-between items-end gap-4">
             <div className="space-y-1 min-w-0">
               <p className="text-[9px] text-stone-400 uppercase tracking-widest font-sans">
-                Warmest wishes from
+                จาก
               </p>
               <p className="font-extrabold text-stone-800 font-sans text-sm md:text-base truncate">
                 {displaySender}
