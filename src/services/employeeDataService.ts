@@ -74,9 +74,10 @@ function parseEmployeeCsv(csvText: string): Employee[] {
     const isActiveRaw = findValue(cells, ['isactive', 'active', 'สถานะ']);
     const isActive = !isActiveRaw || ['true', 'yes', 'y', '1', 'active', 'ใช้งาน'].includes(isActiveRaw.trim().toLowerCase());
 
+    const safeFirstName = firstName.trim().split(/\s+/)[0] || '';
     const displayNameParts = [
-      nickname || firstName || `พนักงาน ${index + 1}`,
-      [firstName, lastName].filter(Boolean).join(' '),
+      nickname || safeFirstName || `พนักงาน ${index + 1}`,
+      safeFirstName,
       department,
       bu,
     ].filter(Boolean);
