@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Mail, Briefcase, Check, Building2 } from 'lucide-react';
+import { Search, Briefcase, Check, Building2 } from 'lucide-react';
 import { Employee } from '../types';
 import { loadEmployeeDirectory } from '../services/employeeDataService';
 
@@ -25,6 +25,25 @@ export default function RecipientSearch({
   const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
   const [isLoadingDirectory, setIsLoadingDirectory] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const normalizeSearchText = (value: string): string =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '');
+
+  const getSafeFirstName = (employee: Employee): string => {
+    const rawName = (employee.firstName || employee.displayName.split(' - ')[1] || '').trim();
+    return rawName.split(/\s+/)[0] || employee.nickname;
+  };
+
+  const getRecipientLabel = (employee: Employee): string => {
+    const firstName = getSafeFirstName(employee);
+    return firstName && firstName !== employee.nickname
+      ? `${employee.nickname} | ${firstName}`
+      : employee.nickname;
+  };
+
 
   // Load employee directory from Google Sheets CSV when configured, otherwise use mock data.
   useEffect(() => {
@@ -50,24 +69,41 @@ export default function RecipientSearch({
     };
   }, []);
 
-  // Filter employees based on search query
+  // Filter employees based on visible, PDPA-friendly fields only.
+  // We intentionally do not search from surname, email, or displayName because
+  // those fields may contain hidden personal data that users should not see in the dropdown.
   useEffect(() => {
-    if (!searchQuery.trim()) {
+    const query = normalizeSearchText(searchQuery);
+
+    if (!query) {
       setResults(allEmployees);
       return;
     }
 
-    const query = searchQuery.toLowerCase();
-    const filtered = allEmployees.filter(
-      (emp) =>
-        emp.nickname.toLowerCase().includes(query) ||
-        emp.displayName.toLowerCase().includes(query) ||
-        (emp.firstName || '').toLowerCase().includes(query) ||
-        emp.email.toLowerCase().includes(query) ||
-        emp.department.toLowerCase().includes(query) ||
-        (emp.bu || '').toLowerCase().includes(query)
-    );
-    setResults(filtered);
+    const scoredResults = allEmployees
+      .map((emp) => {
+        const nickname = normalizeSearchText(emp.nickname);
+        const firstName = normalizeSearchText(getSafeFirstName(emp));
+        const department = normalizeSearchText(emp.department || '');
+        const bu = normalizeSearchText(emp.bu || '');
+
+        let score = 0;
+
+        if (nickname === query) score = 100;
+        else if (nickname.startsWith(query)) score = 90;
+        else if (nickname.includes(query)) score = 80;
+        else if (firstName === query) score = 70;
+        else if (firstName.startsWith(query)) score = 60;
+        else if (firstName.includes(query)) score = 50;
+        else if (department === query || bu === query) score = 40;
+        else if (query.length >= 2 && (department.includes(query) || bu.includes(query))) score = 30;
+
+        return { emp, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score || a.emp.nickname.localeCompare(b.emp.nickname, 'th'));
+
+    setResults(scoredResults.map((item) => item.emp));
   }, [searchQuery, allEmployees]);
 
   // Click outside to close dropdown
@@ -108,7 +144,7 @@ export default function RecipientSearch({
             </div>
             <div>
               <div className="font-medium text-stone-900 text-base flex items-center gap-1.5">
-                {selectedRecipient.displayName.split(' - ')[0]}
+                {getRecipientLabel(selectedRecipient)}
                 <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold">
                   {selectedRecipient.department}
                 </span>
@@ -118,7 +154,7 @@ export default function RecipientSearch({
                   </span>
                 )}
               </div>
-              <p className="text-xs text-stone-500 font-mono mt-0.5">{selectedRecipient.email}</p>
+              <p className="text-xs text-stone-500 mt-0.5">ข้อมูลอีเมลถูกเก็บไว้สำหรับระบบส่งการ์ดเท่านั้น</p>
             </div>
           </div>
           <button
@@ -164,7 +200,7 @@ export default function RecipientSearch({
               className="absolute z-30 mt-2 w-full bg-white border border-stone-200 rounded-xl shadow-xl max-h-60 overflow-y-auto overflow-x-hidden p-1.5"
             >
               <div className="text-[11px] font-semibold text-stone-400 px-3 py-1.5 uppercase tracking-wide border-b border-stone-50 mb-1">
-                {isLoadingDirectory ? 'กำลังโหลดรายชื่อพนักงาน...' : `รายชื่อพนักงานทั้งหมด (${results.length})`}
+                {isLoadingDirectory ? 'กำลังโหลดรายชื่อพนักงาน...' : searchQuery.trim() ? `ผลการค้นหา (${results.length})` : `รายชื่อพนักงานทั้งหมด (${results.length})`}
               </div>
               {results.length > 0 ? (
                 results.map((emp) => (
@@ -180,24 +216,25 @@ export default function RecipientSearch({
                         {emp.nickname.slice(0, 1)}
                       </div>
                       <div>
-                        <div className="font-medium text-stone-800 text-sm flex items-center gap-2">
+                        <div className="font-medium text-stone-800 text-sm flex items-center gap-2 font-sans">
                           <span className="text-stone-900 font-semibold">{emp.nickname}</span>
-                          <span className="text-stone-400 font-light text-xs">|</span>
-                          <span className="text-stone-600 text-xs">{emp.displayName.split(' - ')[1] || emp.firstName || emp.email}</span>
+                          {getSafeFirstName(emp) !== emp.nickname && (
+                            <>
+                              <span className="text-stone-400 font-light text-xs">|</span>
+                              <span className="text-stone-600 text-xs">{getSafeFirstName(emp)}</span>
+                            </>
+                          )}
                         </div>
-                        <div className="flex items-center gap-1 text-xs text-stone-400 font-mono mt-0.5">
+                        <div className="flex items-center gap-1.5 text-xs text-stone-500 font-sans mt-0.5">
                           <Briefcase className="h-3 w-3 inline text-stone-400" />
                           <span>{emp.department}</span>
                           {emp.bu && (
                             <>
-                              <span className="mx-1">•</span>
+                              <span className="mx-1 text-stone-300">•</span>
                               <Building2 className="h-3 w-3 inline text-amber-500" />
                               <span className="font-semibold text-amber-700">BU: {emp.bu}</span>
                             </>
                           )}
-                          <span className="mx-1">•</span>
-                          <Mail className="h-3 w-3 inline text-stone-400" />
-                          <span>{emp.email}</span>
                         </div>
                       </div>
                     </div>
