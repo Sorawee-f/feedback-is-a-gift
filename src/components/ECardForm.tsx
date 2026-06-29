@@ -13,6 +13,37 @@ import ECardPreview from './ECardPreview';
 import { saveCardToLocalStorage } from '../services/cardStorageService';
 import { CardImagePayload, submitCardToGoogleSheets } from '../services/googleSheetsService';
 
+
+async function waitForCardExportAssets(node: HTMLElement): Promise<void> {
+  const documentWithFonts = document as Document & {
+    fonts?: {
+      ready?: Promise<unknown>;
+    };
+  };
+
+  if (documentWithFonts.fonts?.ready) {
+    await documentWithFonts.fonts.ready;
+  }
+
+  const images = Array.from(node.querySelectorAll('img'));
+
+  await Promise.all(
+    images.map((image) => {
+      if (image.complete) {
+        return Promise.resolve();
+      }
+
+      return new Promise<void>((resolve) => {
+        image.onload = () => resolve();
+        image.onerror = () => resolve();
+      });
+    })
+  );
+
+  // Give the browser one final paint cycle so html-to-image captures the stable export layout.
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
 interface ECardFormProps {
   onSubmitSuccess: (card: ECard, activeTheme: CardTheme) => void;
   onBack: () => void;
@@ -96,10 +127,19 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
     }
 
     try {
+      await waitForCardExportAssets(cardNode);
+
       const dataUrl = await toPng(cardNode, {
         cacheBust: true,
         pixelRatio: 2,
         backgroundColor: '#ffffff',
+        width: cardNode.scrollWidth,
+        height: cardNode.scrollHeight,
+        style: {
+          margin: '0',
+          transform: 'none',
+          maxWidth: 'none',
+        },
       });
 
       const base64 = dataUrl.replace(/^data:image\/png;base64,/, '');
@@ -583,10 +623,28 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
             senderAka={senderAka}
             activeTheme={activeTheme}
             customOptions={isCustomTheme ? customOptions : undefined}
-            cardRef={ecardCaptureRef}
           />
         </div>
 
+      </div>
+
+      {/* Hidden fixed-size card used only for PNG email export. */}
+      <div
+        aria-hidden="true"
+        className="fixed left-[-10000px] top-0 z-[-1] pointer-events-none"
+        style={{ width: 560 }}
+      >
+        <ECardPreview
+          recipientName={selectedRecipient ? selectedRecipient.nickname : ''}
+          recipientDepartment={selectedRecipient ? selectedRecipient.department : ''}
+          message={message}
+          senderMode={senderMode}
+          senderAka={senderAka}
+          activeTheme={activeTheme}
+          customOptions={isCustomTheme ? customOptions : undefined}
+          cardRef={ecardCaptureRef}
+          exportMode
+        />
       </div>
     </div>
   );
