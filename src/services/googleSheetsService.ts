@@ -28,6 +28,13 @@ export interface GoogleSheetsCardRow {
   yakStickerId: string;
   yakPosition: string;
   emailStatus: string;
+  cardImageUrl: string;
+}
+
+export interface CardImagePayload {
+  base64: string;
+  mimeType: 'image/png';
+  fileName: string;
 }
 
 export function mapCardToGoogleSheetsRow(card: ECard): GoogleSheetsCardRow {
@@ -47,10 +54,11 @@ export function mapCardToGoogleSheetsRow(card: ECard): GoogleSheetsCardRow {
     yakStickerId: card.customOptions?.yakStickerId || '',
     yakPosition: card.customOptions?.yakPosition || '',
     emailStatus: card.emailStatus,
+    cardImageUrl: card.cardImageUrl || '',
   };
 }
 
-export async function submitCardToGoogleSheets(card: ECard): Promise<void> {
+export async function submitCardToGoogleSheets(card: ECard, cardImage?: CardImagePayload): Promise<void> {
   if (!GOOGLE_SHEETS_WEBHOOK_URL) {
     return;
   }
@@ -59,6 +67,7 @@ export async function submitCardToGoogleSheets(card: ECard): Promise<void> {
     source: 'feedback-is-a-gift',
     type: 'ecard_submission',
     row: mapCardToGoogleSheetsRow(card),
+    cardImage,
   };
 
   const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
