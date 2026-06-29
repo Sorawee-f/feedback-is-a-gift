@@ -74,10 +74,9 @@ function parseEmployeeCsv(csvText: string): Employee[] {
     const isActiveRaw = findValue(cells, ['isactive', 'active', 'สถานะ']);
     const isActive = !isActiveRaw || ['true', 'yes', 'y', '1', 'active', 'ใช้งาน'].includes(isActiveRaw.trim().toLowerCase());
 
-    // PDPA-friendly display name: do not expose last name or email in UI labels.
     const displayNameParts = [
       nickname || firstName || `พนักงาน ${index + 1}`,
-      firstName,
+      [firstName, lastName].filter(Boolean).join(' '),
       department,
       bu,
     ].filter(Boolean);

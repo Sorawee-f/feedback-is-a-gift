@@ -4,7 +4,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { Gift, ArrowLeft, CheckCircle2, Sparkles, Database, Mail } from 'lucide-react';
+import { Gift, ArrowLeft, CheckCircle2, Sparkles } from 'lucide-react';
 import { ECard } from '../types';
 import { CardTheme } from '../data';
 import ECardPreview from './ECardPreview';
@@ -57,33 +57,16 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="h-5 w-5 text-amber-500" />
               <h2 className="font-extrabold text-stone-900 font-sans">
-                การ์ดของคุณถูกบันทึกเรียบร้อย
+                ขอบคุณที่ร่วมส่งต่อคำชื่นชม
               </h2>
             </div>
 
             <p className="text-sm text-stone-600 font-sans leading-relaxed">
-              ระบบบันทึกข้อมูลการ์ดไว้สำหรับการติดตามแคมเปญแล้ว โดยข้อมูลอย่างรหัสพนักงาน, BU, ผู้ส่ง, ผู้รับ และข้อความ จะใช้เพื่อสรุปผลให้ทีม HR หลังบ้านเท่านั้น
+              การ์ดของคุณถูกส่งเข้าสู่ระบบเรียบร้อยแล้ว ข้อมูลการส่งจะถูกใช้เพื่อสรุปภาพรวมแคมเปญและการให้รางวัลภายในทีม HR เท่านั้น
             </p>
 
             <div className="mt-4 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs text-emerald-800 font-sans">
-              Cards saved in this browser: <strong>{localCardCount}</strong>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
-              <Database className="h-5 w-5 text-emerald-700 mb-2" />
-              <p className="text-xs font-bold text-stone-800">พร้อมต่อ Google Sheets</p>
-              <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">
-                ถ้าตั้งค่า Webhook แล้ว ระบบจะส่งข้อมูลการ์ดไปเก็บเป็นแถวใน Google Sheets ได้ทันที
-              </p>
-            </div>
-            <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
-              <Mail className="h-5 w-5 text-red-600 mb-2" />
-              <p className="text-xs font-bold text-stone-800">พร้อมต่อ Email จริง</p>
-              <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">
-                ขั้นถัดไปสามารถต่อระบบส่ง E-Card ไปยังอีเมลผู้รับตามข้อมูลพนักงานได้
-              </p>
+              จำนวนการ์ดที่ส่งจากเบราว์เซอร์นี้: <strong>{localCardCount}</strong>
             </div>
           </div>
 

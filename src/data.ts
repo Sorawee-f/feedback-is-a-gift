@@ -9,7 +9,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP001',
     nickname: 'พลอย',
-    displayName: 'พลอย - Ploy - HR',
+    displayName: 'พลอย - Ploy S. - HR',
     email: 'ploy.s@company.com',
     department: 'HR',
     bu: 'TVB'
@@ -17,7 +17,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP002',
     nickname: 'พลอย',
-    displayName: 'พลอย - Ploy - Finance',
+    displayName: 'พลอย - Ploy K. - Finance',
     email: 'ploy.k@company.com',
     department: 'Finance',
     bu: 'VG3'
@@ -25,7 +25,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP003',
     nickname: 'เมย์',
-    displayName: 'เมย์ - May - Marketing',
+    displayName: 'เมย์ - May T. - Marketing',
     email: 'may.t@company.com',
     department: 'Marketing',
     bu: 'TR'
@@ -33,7 +33,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
   {
     employeeId: 'EMP004',
     nickname: 'บี',
-    displayName: 'บี - Bee - People Team',
+    displayName: 'บี - Bee N. - People Team',
     email: 'bee.n@company.com',
     department: 'People Team',
     bu: 'EVP'
@@ -204,7 +204,7 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '🎁',
     stampEmoji: '🎁',
     decorativeEmojis: ['✦', '✺', '✦'],
-    closingLine: 'Wrapped with appreciation',
+    closingLine: 'ส่งด้วยความขอบคุณ',
     yakStickerSrc: '/stickers/yak-holding-gift.png',
     yakPosition: 'bottom-right'
   },
@@ -224,7 +224,7 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '✦',
     stampEmoji: '🏅',
     decorativeEmojis: ['✦', '◆', '✦'],
-    closingLine: 'Growing better together',
+    closingLine: 'เติบโตไปด้วยกัน',
     yakStickerSrc: '/stickers/yak-great.png',
     yakPosition: 'bottom-right'
   },
@@ -246,7 +246,7 @@ export const CARD_THEMES: CardTheme[] = [
     decorativeEmojis: ['❄', '·', '❄'],
     headerTitleClass: 'text-violet-950 drop-shadow-none',
     headerSubtitleClass: 'text-amber-700/90',
-    closingLine: 'Simple words, meaningful impact',
+    closingLine: 'คำสั้น ๆ ที่มีความหมาย',
     yakStickerSrc: '/stickers/yak-mini-heart-(no heart).png',
     yakPosition: 'bottom-right'
   },
@@ -266,7 +266,7 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '⭐',
     stampEmoji: '✨',
     decorativeEmojis: ['✦', '⭐', '✦'],
-    closingLine: 'Your impact shines bright',
+    closingLine: 'สิ่งดี ๆ ที่คุณทำมีความหมาย',
     yakStickerSrc: '/stickers/yak-Love.png',
     yakPosition: 'bottom-right'
   },
@@ -288,7 +288,7 @@ export const CARD_THEMES: CardTheme[] = [
     decorativeEmojis: ['🎉', '✦', '🥂'],
     headerTitleClass: 'text-yellow-950 drop-shadow-none',
     headerSubtitleClass: 'text-yellow-900/85',
-    closingLine: 'Cheers to your great work',
+    closingLine: 'ขอบคุณสำหรับผลงานที่ยอดเยี่ยม',
     yakStickerSrc: '/stickers/yak-SayHi.png',
     yakPosition: 'bottom-right'
   },
@@ -308,7 +308,7 @@ export const CARD_THEMES: CardTheme[] = [
     illustration: '❤️',
     stampEmoji: '❤️',
     decorativeEmojis: ['✦', '❤️', '✦'],
-    closingLine: 'Made just for you',
+    closingLine: 'ตั้งใจส่งให้คุณโดยเฉพาะ',
     yakStickerSrc: YAK_STICKERS[0].src,
     yakPosition: DEFAULT_CUSTOM_OPTIONS.yakPosition,
     isCustom: true
