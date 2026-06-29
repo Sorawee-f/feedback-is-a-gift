@@ -62,7 +62,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
             </div>
 
             <p className="text-sm text-stone-600 font-sans leading-relaxed">
-              การ์ดของคุณถูกส่งเข้าสู่ระบบเรียบร้อยแล้ว ข้อมูลการส่งจะถูกใช้เพื่อสรุปภาพรวมแคมเปญและการให้รางวัลภายในทีม HR เท่านั้น
+              การ์ดของคุณถูกส่งไปยังผู้รับทาง Email เรียบร้อยแล้ว ขอบคุณสำหรับคำชื่นชมและ Feedback ดีๆที่ช่วยส่งต่อพลังบวกให้คนในองค์กร
             </p>
 
             <div className="mt-4 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs text-emerald-800 font-sans">
