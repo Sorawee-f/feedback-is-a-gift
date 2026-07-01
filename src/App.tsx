@@ -129,7 +129,7 @@ export default function App() {
         </span>
         <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-ping"></div>
         <span className="text-white text-[10px] md:text-xs uppercase tracking-[0.2em] font-sans opacity-95 font-bold">
-          {cardsSentCount.toLocaleString()} Cards Sent This Season
+          {cardsSentCount.toLocaleString()} Letters Sent This Season
         </span>
       </div>
 
