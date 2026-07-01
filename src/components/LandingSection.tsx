@@ -85,7 +85,7 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
           <p id="campaign-subtitle" className="text-stone-600 text-sm md:text-base leading-relaxed font-sans mb-8">
             ยินดีต้อนรับพนักงานทุกคนเข้าสู่ แคมเปญส่งต่อกำลังใจและความรู้สึกดีๆ ให้กันและกัน 
             คุณสามารถร่วมแชร์คำขอบคุณ ชื่นชมสปิริตการทำงาน หรือฟีดแบคเชิงบวก 
-            ในรูปแบบ <strong className="text-stone-800">E-Card ลวดลายต่างๆ</strong> ไปยังเพื่อนร่วมงาน หัวหน้าทีม หรือผู้บริหารได้ง่ายๆ ทันที
+            ในรูปแบบ <strong className="text-stone-800">E-Letter ลวดลายต่างๆ</strong> ไปยังเพื่อนร่วมงาน หัวหน้าทีม หรือผู้บริหารได้ง่ายๆ ทันที
           </p>
 
           {/* Quick instructions checklist */}
@@ -114,7 +114,7 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
             <div className="flex items-start gap-2.5">
               <span className="bg-stone-100 text-stone-700 border border-stone-200 font-bold p-1 rounded-md text-[10px] w-5 h-5 flex items-center justify-center shrink-0">4</span>
               <div>
-                <strong className="text-stone-800 font-sans block mb-0.5">พรีวิวการ์ดสไตล์เรียลไทม์</strong>
+                <strong className="text-stone-800 font-sans block mb-0.5">พรีวิวจดหมายสไตล์เรียลไทม์</strong>
                 <span>เห็นร่างชิ้นงานพร้อมภาพประกอบจำลองแบบสดๆ</span>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
               className="w-full sm:w-auto px-8 py-4 bg-red-650 hover:bg-red-700 text-white font-sans text-base font-bold rounded-2xl shadow-xl hover:shadow-red-500/10 cursor-pointer flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5"
             >
               <Gift className="h-5 w-5 animate-pulse" />
-              <span>เริ่มเขียนการ์ด (Send E-Card)</span>
+              <span>เริ่มเขียนจดหมาย (Send E-Letter)</span>
               <Send className="h-4 w-4 text-white/80" />
             </button>
             

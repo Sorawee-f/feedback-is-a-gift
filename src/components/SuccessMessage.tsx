@@ -28,7 +28,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
           <CheckCircle2 className="h-10 w-10" />
         </div>
         <h1 id="success-title" className="text-2xl md:text-4xl font-extrabold text-stone-900 tracking-tight font-sans mb-2">
-          ส่งการ์ดสำเร็จแล้ว! 🎉
+          ส่งจดหมายสำเร็จแล้ว! 🎉
         </h1>
         <p id="success-subtitle" className="text-stone-600 text-sm md:text-base font-sans max-w-xl mx-auto">
           ขอบคุณที่ร่วมส่งต่อคำชื่นชมและพลังบวกให้เพื่อนร่วมงานของเราครับ
@@ -62,11 +62,11 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
             </div>
 
             <p className="text-sm text-stone-600 font-sans leading-relaxed">
-              การ์ดของคุณถูกส่งไปยังผู้รับทาง Email เรียบร้อยแล้ว ขอบคุณสำหรับคำชื่นชมและ Feedback ดีๆที่ช่วยส่งต่อพลังบวกให้คนในองค์กร
+              จดหมายของคุณถูกส่งไปยังผู้รับทาง Email เรียบร้อยแล้ว ขอบคุณสำหรับคำชื่นชมและ Feedback ดีๆที่ช่วยส่งต่อพลังบวกให้คนในองค์กร
             </p>
 
             <div className="mt-4 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs text-emerald-800 font-sans">
-              จำนวนการ์ดที่ส่งจากเบราว์เซอร์นี้: <strong>{localCardCount}</strong>
+              จำนวนจดหมายที่ส่งจากเบราว์เซอร์นี้: <strong>{localCardCount}</strong>
             </div>
           </div>
 
@@ -79,7 +79,7 @@ export default function SuccessMessage({ card, cardTheme, onReset, onGoHome }: S
               className="w-full sm:flex-1 py-3.5 px-6 bg-red-650 hover:bg-red-700 text-white font-sans font-bold text-sm rounded-xl cursor-pointer shadow-md transition-all flex items-center justify-center gap-2"
             >
               <Gift className="h-4.5 w-4.5" />
-              <span>เขียนการ์ดใบใหม่</span>
+              <span>เขียนจดหมายฉบับใหม่</span>
             </button>
             <button
               type="button"

@@ -117,7 +117,7 @@ export default function RecipientSearch({
   return (
     <div id="recipient-search-container" className="relative w-full font-sans" ref={containerRef}>
       <label className="block text-sm font-medium text-stone-700 mb-1.5 flex items-center gap-1.5">
-        <span>ผู้รับ E-Card (Recipient)</span>
+        <span>ผู้รับ E-Letter (Recipient)</span>
         <span className="text-red-600 font-bold">*</span>
       </label>
 
@@ -144,7 +144,7 @@ export default function RecipientSearch({
                 )}
               </div>
               <p className="text-xs text-stone-500 mt-0.5">
-                ระบบจะใช้ข้อมูลอีเมลหลังบ้านสำหรับส่งการ์ด โดยไม่แสดงให้ผู้ส่งเห็น
+                ระบบจะใช้ข้อมูลอีเมลหลังบ้านสำหรับส่งจดหมาย โดยไม่แสดงให้ผู้ส่งเห็น
               </p>
             </div>
           </div>

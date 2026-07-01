@@ -18,7 +18,7 @@ interface ECardPreviewProps {
   customOptions?: CustomCardOptions;
   cardRef?: React.Ref<HTMLDivElement>;
   /**
-   * Export mode renders only the actual E-Card at a stable fixed width.
+   * Export mode renders only the actual E-Letter at a stable fixed width.
    * It avoids sticky wrappers, scrollbars, and responsive text shifts so PNG emails render cleanly.
    */
   exportMode?: boolean;
@@ -65,11 +65,11 @@ export default function ECardPreview({
   const visualTheme = resolveCardTheme(activeTheme, customOptions);
   const headerTitleClass = visualTheme.headerTitleClass || 'text-white drop-shadow-sm';
   const headerSubtitleClass = visualTheme.headerSubtitleClass || 'text-white/75';
-  const displayRecipient = recipientName || 'ชื่อผู้รับการ์ด';
+  const displayRecipient = recipientName || 'ชื่อผู้รับจดหมาย';
   const displayMessage = message || 'เขียนข้อความขอบคุณ ความประทับใจ หรือคำชื่นชมในความทุ่มเทของคุณที่นี่ เพื่อส่งต่อความรู้สึกดี ๆ ให้คนในองค์กร';
   const displaySender = senderMode === 'anonymous'
     ? 'Anonymous'
-    : (senderAka.trim() || 'ชื่อผู้ส่งการ์ด');
+    : (senderAka.trim() || 'ชื่อผู้ส่งจดหมาย');
 
   const messageFontSizeClass = getMessageFontSize(message, exportMode);
   const messageLineHeightClass = getMessageLineHeight(message);
@@ -225,7 +225,7 @@ export default function ECardPreview({
       <div className="w-full flex items-center justify-between mb-4 border-b border-stone-200/60 pb-3">
         <h3 className="text-sm font-semibold text-stone-600 flex items-center gap-1.5 font-sans">
           <Sparkles className="h-4 w-4 text-amber-500" />
-          <span>Live E-Card Preview</span>
+          <span>Live E-Letter Preview</span>
         </h3>
         <span className="text-xs px-2.5 py-1 rounded-full bg-white text-stone-600 font-sans font-medium border border-stone-200">
           {visualTheme.shortName}
@@ -235,7 +235,7 @@ export default function ECardPreview({
       {actualCard}
 
       <div className="w-full text-center mt-3 text-stone-400 text-xs font-sans">
-        * รหัสพนักงานและ BU ใช้ Track หลังบ้านเท่านั้น ไม่แสดงบนการ์ด
+        * รหัสพนักงานและ BU ใช้ Track หลังบ้านเท่านั้น ไม่แสดงบนจดหมาย
       </div>
     </div>
   );

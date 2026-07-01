@@ -89,7 +89,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
     const newErrors: { [key: string]: string } = {};
 
     if (!selectedRecipient) {
-      newErrors.recipient = 'กรุณาเลือกผู้รับ E-Card (Recipient is required)';
+      newErrors.recipient = 'กรุณาเลือกผู้รับ E-Letter (Recipient is required)';
     }
 
     if (!message.trim()) {
@@ -112,7 +112,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
 
     // Sender Name / AKA validation (named-only)
     if (!senderAka.trim()) {
-      newErrors.senderAka = 'กรุณาระบุนามแฝง/ชื่อที่ใช้แสดงบนการ์ด (Sender Display Name is required)';
+      newErrors.senderAka = 'กรุณาระบุนามแฝง/ชื่อที่ใช้แสดงบนจดหมาย (Sender Display Name is required)';
     }
 
     setErrors(newErrors);
@@ -222,7 +222,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Left column: Interactive E-Card Form Fields */}
+        {/* Left column: Interactive E-Letter Form Fields */}
         <form 
           id="ecard-form-element" 
           onSubmit={handleSubmit} 
@@ -230,7 +230,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
         >
           <div>
             <h2 className="text-xl md:text-2xl font-bold text-stone-900 font-sans tracking-tight flex items-center gap-2">
-              <span>สร้างการ์ดอวยพรส่งความสุข</span>
+              <span>สร้างจดหมายอวยพรส่งความสุข</span>
               <span className="text-xl">🎁</span>
             </h2>
             <p className="text-xs text-stone-500 font-sans mt-1">
@@ -290,7 +290,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                     errors.employeeCode ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 focus:ring-[#064E3B] focus:border-[#064E3B]'
                   } rounded-xl text-sm font-semibold font-mono outline-none focus:ring-1 focus:bg-white`}
                 />
-                <span className="text-[10px] text-stone-400 block mt-1">ใช้ประมวลผลภายใน ไม่แสดงบนตัวการ์ด</span>
+                <span className="text-[10px] text-stone-400 block mt-1">ใช้ประมวลผลภายใน ไม่แสดงบนจดหมาย</span>
                 {errors.employeeCode && (
                   <span className="text-[11px] text-red-650 font-medium block mt-1">• {errors.employeeCode}</span>
                 )}
@@ -359,7 +359,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                   errors.senderAka ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 focus:ring-emerald-700 focus:border-emerald-700'
                 } rounded-xl text-sm font-sans outline-none focus:ring-1 focus:bg-white`}
               />
-              <span className="text-[10px] text-stone-400 block mt-1">ชื่อนี้จะปรากฏในแท็ก Warmest wishes from ด้านล่างการ์ด</span>
+              <span className="text-[10px] text-stone-400 block mt-1">ชื่อนี้จะปรากฏในแท็ก Warmest wishes from ด้านล่างจดหมาย</span>
               {errors.senderAka && (
                 <span className="text-[11px] text-red-650 font-medium block mt-1">• {errors.senderAka}</span>
               )}
@@ -370,10 +370,10 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
           <div className="space-y-3 border-t border-stone-100 pt-5">
             <div>
               <label className="block text-sm font-bold text-stone-800 font-sans">
-                สไตล์ลวดลายการ์ด E-Card (5 แบบแนะนำ + Custom)
+                สไตล์ลวดลายจดหมาย E-Letter (5 แบบแนะนำ + Custom)
               </label>
               <p className="text-[11px] text-stone-400 font-sans mt-0.5">
-                เลือกจากแบบแนะนำ หรือใช้ Custom เพื่อเลือกสีหัวการ์ดและตำแหน่งพี่ยักษ์ได้
+                เลือกจากแบบแนะนำ หรือใช้ Custom เพื่อเลือกสีหัวจดหมายและตำแหน่งพี่ยักษ์ได้
               </p>
             </div>
 
@@ -412,13 +412,13 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
                     Custom Card Controls
                   </h4>
                   <p className="text-[11px] text-stone-500 font-sans mt-0.5">
-                    ปรับเฉพาะสีหัวการ์ดและพี่ยักษ์ เพื่อให้ยังใช้งานง่าย ไม่กลายเป็น card editor เต็มระบบ
+                    ปรับเฉพาะสีหัวจดหมายและพี่ยักษ์ เพื่อให้ยังใช้งานง่าย ไม่กลายเป็น card editor เต็มระบบ
                   </p>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-600 mb-2">
-                    สีหัวการ์ด (Header Color)
+                    สีหัวจดหมาย (Header Color)
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {HEADER_COLOR_OPTIONS.map((color) => (
@@ -605,7 +605,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
               ) : (
                 <>
                   <Send className="h-5 w-5" />
-                  <span>ส่งข้อความชื่นชม (Deliver This E-Card)</span>
+                  <span>ส่งข้อความชื่นชม (Deliver This E-Letter)</span>
                 </>
               )}
             </button>
@@ -613,7 +613,7 @@ export default function ECardForm({ onSubmitSuccess, onBack }: ECardFormProps) {
 
         </form>
 
-        {/* Right column: Beautiful E-Card Preview (sticky view) */}
+        {/* Right column: Beautiful E-Letter Preview (sticky view) */}
         <div className="lg:col-span-5">
           <ECardPreview
             recipientName={selectedRecipient ? selectedRecipient.nickname : ''}
