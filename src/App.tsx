@@ -68,7 +68,7 @@ export default function App() {
             </div>
             <div>
               <h2 className="font-bold text-[#1A1A1A] tracking-tight text-lg font-sans leading-none flex items-center gap-1.5">
-                <span>Feedback is a Gift</span>
+                <span>Thairath Feedback is a Gift</span>
               </h2>
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider font-sans mt-1 block">
                 Internal Organization Campaign
@@ -139,7 +139,7 @@ export default function App() {
           
           <div className="text-left">
             <p className="text-xs font-semibold text-gray-700 font-sans flex items-center gap-1.5 justify-center md:justify-start">
-              <span>แคมเปญ “Feedback is a Gift” 🎁</span>
+              <span>แคมเปญ “Thairath Feedback is a Gift” 🎁</span>
               <span className="text-[10px] text-gray-400 font-normal">เพราะคำชอบคุณและทุกคำชื่นชมคือของขวัญอันคุ้มค่าของคนในองค์กร</span>
             </p>
 
