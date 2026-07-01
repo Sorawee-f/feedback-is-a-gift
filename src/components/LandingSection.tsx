@@ -36,7 +36,7 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
             <div className="h-28 bg-[#064E3B] relative flex flex-col items-center justify-center text-center">
               <span className="text-2xl mb-1">🎄</span>
               <span className="text-white font-bold text-xs tracking-widest uppercase">Season's Greetings</span>
-              <span className="text-white/60 text-[8px] font-medium uppercase tracking-[0.2em] mt-0.5">Feedback is a Gift</span>
+              <span className="text-white/60 text-[8px] font-medium uppercase tracking-[0.2em] mt-0.5">Thairath Feedback is a Gift</span>
               
               {/* Year Ribbon */}
               <div className="absolute -right-8 -top-8 w-18 h-18 bg-red-600 rotate-45 flex items-end justify-center pb-1">
@@ -73,7 +73,7 @@ export default function LandingSection({ onStart }: LandingSectionProps) {
           <div className="inline-flex items-center gap-2 justify-center md:justify-start mb-4">
             <span className="h-1 w-5 rounded-full bg-red-650"></span>
             <span className="text-xs font-bold text-red-650 uppercase tracking-widest font-sans">
-              Feedback Is A Gift
+              Thairath Feedback Is A Gift
             </span>
           </div>
 
