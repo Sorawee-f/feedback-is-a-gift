@@ -296,7 +296,7 @@ export const CARD_THEMES: CardTheme[] = [
     id: 'custom',
     name: 'Custom Card',
     shortName: 'Custom',
-    description: 'เลือกสีหัวการ์ดและตำแหน่งพี่ยักษ์เองแบบง่าย ๆ',
+    description: 'เลือกสีหัวจดหมายและตำแหน่งพี่ยักษ์เองแบบง่าย ๆ',
     headerBg: HEADER_COLOR_OPTIONS[0].headerBg,
     bodyBg: 'bg-[linear-gradient(180deg,#fffaf0,#ffffff)]',
     frameClass: HEADER_COLOR_OPTIONS[0].frameClass,

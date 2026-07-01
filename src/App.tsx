@@ -90,7 +90,7 @@ export default function App() {
               onClick={() => setView('form')}
               className={`text-sm font-semibold transition-colors font-sans ${view === 'form' ? 'text-red-600' : 'text-gray-500 hover:text-gray-900'}`}
             >
-              Send E-Card 🎄
+              Send E-Letter 🎄
             </button>
           </div>
 
